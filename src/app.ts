@@ -6,6 +6,7 @@ import morgan from 'morgan';
 const xss = require('xss-clean');
 import routes from './routes/index';
 import golbalErrorHandler from './controllers/error.controller';
+import AppError from './utils/app.error';
 
 
 const mongoSanitize = ExpressMongoSanitize();
@@ -29,7 +30,7 @@ app.use('/api/v1', routes);
 
 
 app.all('*', (req, res ,next) => {
-  next(new Error(`Can't find ${req.originalUrl} on this server!`));
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`,404));
  
 });
 

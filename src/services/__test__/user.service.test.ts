@@ -1,7 +1,7 @@
 import UserService from '../user.service';
 import DB from "../../config/database";
 import hash from "../../utils/hashing";
-import User from 'models/user';
+import {User} from 'models/index';
 
 describe("UserService", () => {
   let database: DB;

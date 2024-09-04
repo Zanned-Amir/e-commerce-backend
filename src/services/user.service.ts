@@ -1,6 +1,6 @@
 
-import UserRepository from '../repositories/user.repository';
-import ApiFeatures from "../utils/api.feature";
+import {UserRepository} from '../repositories/index';
+import ApiFeature from "../utils/api.feature";
 
 class UserService {
 
@@ -17,12 +17,12 @@ class UserService {
 
           async getUsers(query: any = {}) {
 
-                    const apiFeatures = new ApiFeatures(this._userRepository.find(), query)
+                    const apiFeatures = new ApiFeature(this._userRepository.find(), query)
                     .filter(['page', 'sort', 'limit', 'fields'])
                     .sort()
                     .limitFields()
                     .paginate();
-                    return await apiFeatures.query;
+                    return await apiFeatures.query.exec();
                               
                    
           }

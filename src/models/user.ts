@@ -54,6 +54,26 @@ const userSchema = new Schema({
     enum: ['active', 'inactive', 'banned'],
     default: 'active',
   },
+  phone_number: {
+    type: String,
+    validate: {
+      validator: (phone_number: string) => Validator.isMobilePhone(phone_number),
+      message: 'Please provide a valid phone number',
+    },
+  },
+  address: [
+   {
+    street: {
+      type: String,   
+    },
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+  }
+  ],
   created_at: {
     type: Date,
     default: Date.now,

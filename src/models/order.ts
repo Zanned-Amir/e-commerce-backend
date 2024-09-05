@@ -3,7 +3,8 @@ import Validator from 'validator';
 
 
 const orderSchema = new Schema({
-          user_id: {
+          // ref is used to reference the user model
+          user: {
                     type: Schema.Types.ObjectId,
                     ref: 'User',
                     required: true,
@@ -13,6 +14,7 @@ const orderSchema = new Schema({
                     type: String,
                     required: true,
           },
+          // ref is used to reference the product model
           
           products: [
                     {

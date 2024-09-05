@@ -3,12 +3,14 @@ import Validator from 'validator';
 
 
 const  reviewSchema = new Schema({
-          product_id: {
+          // ref is used to reference the product model
+          product: {
                     type: Schema.Types.ObjectId,
                     ref: 'Product',
                     required: true,
           },
-          user_id: {
+          // ref is used to reference the user model
+          user: {
                     type: Schema.Types.ObjectId,
                     ref: 'User',
                     required: true,
@@ -38,6 +40,6 @@ const  reviewSchema = new Schema({
           }
 );
 
-reviewSchema.index({ product_id: 1, user_id: 1 }, { unique: true });
+reviewSchema.index({ product: 1, user: 1 }, { unique: true });
 
 export default  model('Review', reviewSchema);

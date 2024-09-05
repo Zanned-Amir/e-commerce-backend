@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import AppError from '../utils/app.error';
 import catchAsync from '../utils/catchAsync';
-import UserService from '../services/user.service';
+import { UserService} from '../services/index';
 import { user } from '../types/user';
 
 
 
 
 
-export default  class UserController { 
+  class UserController { 
 
   private _userService: UserService;
   
@@ -50,6 +50,10 @@ export default  class UserController {
 
             const id: string = req.params.id;
             const user = await this._userService.getUserById(id);
+
+            if (!user) {
+              throw new AppError('User not found', 404);
+            }
 
             res.status(200).json({
               status: 'success',
@@ -99,3 +103,5 @@ export default  class UserController {
           
 
 }
+
+export default UserController;

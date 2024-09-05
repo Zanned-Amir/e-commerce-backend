@@ -110,7 +110,6 @@ describe("UserService", () => {
           });
 
           describe("Update User Tests", () => {
-                              
                     beforeEach(async () => {
                       await User.deleteMany({});
                       const user = {
@@ -140,23 +139,8 @@ describe("UserService", () => {
                       const count = await userService.countUsers();
                       expect(count).toBe(0);
                     });
-                    
 
-
-          
           });
-
-         
-                    
-                    
-                  
-       
-
-
-
-
-
-
 
 
 });

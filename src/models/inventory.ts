@@ -7,6 +7,9 @@ const inventorySchema = new Schema({
     ref: 'Product',
     required: true,
   },
+  label: {
+    type: String,
+  },
   quantity: {
     type: Number,
     required: true,

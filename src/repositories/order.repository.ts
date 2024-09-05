@@ -5,6 +5,10 @@ class OrderRepository extends BaseRepository {
     constructor() {
         super(Order);
     }
+
+    async updateStatus(id: string, status: string) {
+        return await Order.findByIdAndUpdate(id, {status}, {new: true});
+    }
 }
 
 export default OrderRepository;

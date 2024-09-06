@@ -37,6 +37,14 @@ class PaymentService {
                     return await this._paymentRepository.delete(id);
           }
 
+          async updatePaymentStatus(id: string, status: string) {
+                    return await this._paymentRepository.update(id, { status });
+          }
+
+          async countPayments() {
+                    return await this._paymentRepository.count();
+          }
+
 }
 
 export default PaymentService;

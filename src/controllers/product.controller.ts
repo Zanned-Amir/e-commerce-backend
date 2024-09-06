@@ -14,8 +14,8 @@ class ProductController {
 
           getAllProducts = catchAsync(async (req: Request, res: Response) => {
                               
-                              const { page, sort, limit, fields } = req.query;
-                              const products = await this._productService.getProducts({ page, sort, limit, fields });
+                              const query = req.query;
+                              const products = await this._productService.getProducts(query);
           
                               res.status(200).json({
                                         status: 'success',
@@ -68,6 +68,16 @@ class ProductController {
                               });
                     });
 
+          activateProduct = catchAsync(async (req: Request, res: Response) => {
+                              const id: string = req.params.id;
+                              const activatedProduct = await this._productService.activateProduct(id);
+          
+                              res.status(200).json({
+                                        status: 'success',
+                                        data: activatedProduct,
+                              });
+                    });
+
           deleteProduct = catchAsync(async (req: Request, res: Response) => {
                               const id: string = req.params.id;
                               await this._productService.deleteProduct(id);
@@ -78,9 +88,19 @@ class ProductController {
                               });
                     });
 
+          countProducts = catchAsync(async (req: Request, res: Response) => {
+                              const count = await this._productService.countProducts();
+                              res.status(200).json({
+                              status: 'success',
+                              data: count,
+                              });
+                              });
 
-                    
+
+
 
 }
+
+export default ProductController;
 
 

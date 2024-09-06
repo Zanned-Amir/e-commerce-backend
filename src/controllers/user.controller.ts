@@ -22,8 +22,8 @@ import { user } from '../types/user';
 
          getAllUsers = catchAsync(async (req: Request, res: Response) => {
 
-          const { page, sort, limit, fields } = req.query;
-          const users = await this._userService.getUsers({ page, sort, limit, fields });
+          const query = req.query;
+          const users = await this._userService.getUsers(query);
 
           res.status(200).json({
             status: 'success',

@@ -45,6 +45,10 @@ class ApiFeature {
                     return this;
           }
 
+          async count() {
+                    return await this.query.model.countDocuments();
+           }
+
 }
 
 export default ApiFeature;

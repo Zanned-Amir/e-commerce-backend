@@ -1,4 +1,4 @@
-import UserService from '../user.service';
+import {UserService } from '../index';
 import DB from "../../config/database";
 import hash from "../../utils/hashing";
 import {User} from 'models/index';

@@ -11,6 +11,7 @@ const paymentSchema = new Schema({
     type: String,
     required: true,
     enum: ['credit_card', 'cash'],
+    message: 'Payment method must be credit_card or cash',
   },
   amount: {
     type: Number,
@@ -21,6 +22,7 @@ const paymentSchema = new Schema({
     type: String,
     enum: ['pending', 'completed', 'cancelled'],
     default: 'pending',
+    message: 'Status must be pending, completed or cancelled',
   },
   created_at: {
     type: Date,

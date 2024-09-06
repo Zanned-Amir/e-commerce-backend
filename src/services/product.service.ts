@@ -37,6 +37,9 @@ class ProductService {
           async deactivateProduct(id: string) {
                     return await this._productRepository.deactivate(id);
           }
+          async activateProduct(id: string) {
+                    return await this._productRepository.activate(id);
+          }
 
           async deleteProduct(id: string) {
                     return await this._productRepository.delete(id);
@@ -45,6 +48,7 @@ class ProductService {
           async countProducts() {
                     return await this._productRepository.count();
           }
+          
 
 }
 

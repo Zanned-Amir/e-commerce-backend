@@ -1,5 +1,5 @@
 import  { Router } from 'express';
-import UserController from '../controllers/user.controller';
+import { UserController } from '../controllers/index';
 
 const  router = Router();
 const userController = new UserController();
@@ -16,5 +16,7 @@ router.route('/:id').patch(userController.updateUser);
 router.route('/:id').delete(userController.deleteUser);
 
 router.route('/:id/deactivate').patch(userController.deactivateUser);
+
+router.route('/:id/activate').patch(userController.activateUser);
 
 export default router;

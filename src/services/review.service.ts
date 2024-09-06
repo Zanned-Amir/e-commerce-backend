@@ -37,4 +37,18 @@ class ReviewService {
                     return await this._reviewRepository.delete(id);
           }
 
+          async hideReview(id: string) {
+                    return await this._reviewRepository.update(id, {status: true});
+          }
+
+          async showReview(id: string) {
+                    return await this._reviewRepository.update(id, {status: false});
+          }
+
+          async countReviews() {
+                    return await this._reviewRepository.count();
+          }
+
 }
+
+export default ReviewService;

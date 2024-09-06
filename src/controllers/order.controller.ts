@@ -14,8 +14,8 @@ class OrderController {
 
           getAllOrders = catchAsync(async (req: Request, res: Response) => {
                               
-                              const { page, sort, limit, fields } = req.query;
-                              const orders = await this._orderService.getOrders({ page, sort, limit, fields });
+                    const query = req.query;
+                    const orders = await this._orderService.getOrders(query);
           
                               res.status(200).json({
                                         status: 'success',
@@ -59,6 +59,7 @@ class OrderController {
                     });
 
           updateOrderStatus = catchAsync(async (req: Request, res: Response) => {
+                    
                               const statusList = ['pending', 'completed', 'cancelled'];
                               const id: string = req.params.id;
                               const status: string = req.body.status;
@@ -84,4 +85,14 @@ class OrderController {
                               });
                     });
 
+          countOrders = catchAsync(async (req: Request, res: Response) => {
+                              const count = await this._orderService.countOrders();
+                              res.status(200).json({
+                              status: 'success',
+                              data: count,
+                              });
+                              });
+
 }
+
+export default OrderController;

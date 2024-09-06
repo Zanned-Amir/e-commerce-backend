@@ -1,8 +1,25 @@
 import userRouter from './user.routes';
+import productRouter from './product.routes';
+import orderRouter from './order.routes';
+import paymentRouter from './payment.routes';
+import reviewRouter from './review.routes';
+import inventoryRouter from './inventory.routes';
+import providerRouter from './provider.routes';
+import categoryRouter from './category.routes';
+
 import { Router } from 'express';
 
 const router = Router();
 
 router.use('/users', userRouter);
+router.use('/products', productRouter);
+router.use('/orders', orderRouter);
+router.use('/payments', paymentRouter);
+router.use('/reviews', reviewRouter);
+router.use('/inventory', inventoryRouter);
+router.use('/providers', providerRouter);
+router.use('/categories', categoryRouter);
+
+
 
 export default router;

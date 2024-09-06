@@ -39,6 +39,10 @@ class UserService {
                     return await this._userRepository.deactivate(id);
           }
 
+          async activateUser(id: string) {
+                    return await this._userRepository.activate(id);
+          }
+
           async deleteUser(id: string) {
                     return await this._userRepository.delete(id);
           }

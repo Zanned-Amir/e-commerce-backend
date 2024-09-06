@@ -50,6 +50,13 @@ class CategoryService {
           async countCategories() {
                     return await this._categoryRepository.count();
           }
+
+          async countFilteredCategories(query: any = {}) {
+                    const apiFeatures = new ApiFeature(this._categoryRepository.find(), query)
+                        .filter(['page', 'sort', 'limit', 'fields']);
+                        
+                    return await apiFeatures.count();
+                }
 }
 
 export default CategoryService;

@@ -43,6 +43,10 @@ class OrderService {
                     return await this._orderRepository.delete(id);
           }
 
+          async countOrders() {
+                    return await this._orderRepository.count();
+          }
+
 }
 
 export default OrderService;

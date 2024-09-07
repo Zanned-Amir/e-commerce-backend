@@ -1,5 +1,5 @@
 import  { Router } from 'express';
-import { OrderController } from 'controllers';
+import { OrderController } from '../controllers/index';
 
 const  router = Router();
 const orderController = new OrderController();
@@ -16,6 +16,7 @@ router.route('/:id').delete(orderController.deleteOrder);
 
 
 router.route('/:id/status').patch(orderController.updateOrderStatus);
+
 
 export default router;
 

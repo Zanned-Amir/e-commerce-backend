@@ -1,4 +1,4 @@
-import ReviewController from '../controllers/review.controller';
+import {ReviewController} from '../controllers/index';
 import { Router } from 'express';
 
 const router = Router();

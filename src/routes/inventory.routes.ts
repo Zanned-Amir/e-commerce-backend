@@ -1,5 +1,5 @@
 import  { Router } from 'express';
-import { InventoryController } from 'controllers';
+import { InventoryController } from '../controllers/index';
 
 const router = Router();
 
@@ -14,6 +14,8 @@ router.route('/:id').get(inventoryController.getInventory);
 router.route('/:id').patch(inventoryController.updateInventory);
 
 router.route('/:id').delete(inventoryController.deleteInventory);
+
+
 
 
 export default router;

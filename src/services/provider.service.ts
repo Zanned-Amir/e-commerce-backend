@@ -1,5 +1,5 @@
-import { ProviderRepository } from "repositories"; 
-import ApiFeature from "utils/api.feature";
+import { ProviderRepository } from "../repositories/index"; 
+import ApiFeature from "../utils/api.feature";
 
 class ProviderService {
 

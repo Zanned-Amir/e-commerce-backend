@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import  catchAsync  from '../utils/catchAsync';
+import  catchAsync  from '../utils/catch.async';
 import { OrderService } from '../services/index';
 import AppError from '../utils/app.error';
 

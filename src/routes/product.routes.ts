@@ -17,6 +17,8 @@ router.route('/:id/deactivate').patch(productController.deactivateProduct);
 
 router.route('/:id/activate').patch(productController.activateProduct);
 
+router.route('/:id/count').patch(productController.countProducts);
+
 
 router.route('/:id').delete(productController.deleteProduct);
 

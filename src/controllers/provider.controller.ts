@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import AppError from '../utils/app.error';
-import catchAsync from '../utils/catchAsync';
+import catchAsync from '../utils/catch.async';
 import { ProviderService} from '../services/index'; 
 
 class  ProviderController {

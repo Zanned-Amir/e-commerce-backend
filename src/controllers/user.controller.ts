@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import AppError from '../utils/app.error';
-import catchAsync from '../utils/catchAsync';
+import catchAsync from '../utils/catch.async';
 import { UserService} from '../services/index';
 import { user } from '../types/user';
 
@@ -99,6 +99,18 @@ import { user } from '../types/user';
 
                     
                     });
+
+            activateUser = catchAsync(async (req: Request, res: Response) => {
+                
+                const id: string = req.params.id;
+                await this._userService.activateUser(id);
+  
+                res.status(204).json({
+                  status: 'success',
+                  data: null,
+                });
+  
+              });
 
           
 

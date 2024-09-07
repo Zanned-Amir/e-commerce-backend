@@ -1,5 +1,5 @@
 import  { PaymentRepository } from "../repositories/index";
-import ApiFeature from 'utils/api.feature';
+import ApiFeature from '../utils/api.feature';
 
 class PaymentService {
 

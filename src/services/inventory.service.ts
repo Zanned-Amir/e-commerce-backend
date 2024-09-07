@@ -1,5 +1,5 @@
-import { InventoryRepository } from "repositories/index";
-import ApiFeature from "utils/api.feature";
+import { InventoryRepository } from "../repositories/index";
+import ApiFeature from "../utils/api.feature";
 
 class InventoryService {
 
@@ -35,6 +35,10 @@ class InventoryService {
 
           deleteInventory(id: string) {
                     return this._inventoryRepository.delete(id);
+          }
+
+          countInventories() {
+                    return this._inventoryRepository.count();
           }
 
 }

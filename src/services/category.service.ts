@@ -1,5 +1,5 @@
-import { CategoryRepository } from "repositories"; 
-import ApiFeature from "utils/api.feature";
+import { CategoryRepository } from "../repositories/index"; 
+import ApiFeature from "../utils/api.feature";
 
 
 

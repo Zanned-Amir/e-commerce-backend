@@ -25,6 +25,10 @@ const  reviewSchema = new Schema({
                     min: [1, 'Rating must be greater than 0'],
                     max: [5, 'Rating must be less than 6'],
           },
+          hide : {
+                    type: Boolean,
+                    default: false,
+          },
           created_at: {
                     type: Date,
                     default: Date.now,

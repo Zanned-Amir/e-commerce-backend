@@ -14,8 +14,8 @@ abstract class BaseRepository {
           async create(data: any) {
                     return await this.model.create(data);
                 }
-                find() {
-                    return this.model.find();  
+                find(query: any = {}) {
+                    return this.model.find(query);  
                 }
                 async findById(id: string) {
                     return await this.model.findById(id);
@@ -23,8 +23,8 @@ abstract class BaseRepository {
                 async findOne(conditions: any) {
                     return await this.model.findOne(conditions);
                 }
-                async update(id: string, data: any) {
-                    return await this.model.findByIdAndUpdate(id, data, { new: true });
+                async update(id: string, data: any , options: any = {}) {
+                    return await this.model.findByIdAndUpdate(id, data, { new: true, ...options });
                 }
                 async delete(id: string) {
                     return await this.model.findByIdAndDelete(id);
@@ -32,5 +32,20 @@ abstract class BaseRepository {
                 async count() {
                     return await this.model.countDocuments();
                 }
+
+                async createWithPopulate(data: any, populateFields: any[]) {
+                    return this.model.create(data).populate(populateFields);
+                }
+
+                async findWithPopulate(query: any = {}, populateFields: any[]) {
+                    return this.model.find(query).populate(populateFields);
+                }
+
+                async findByIdWithPopulate(id: string, populateFields: any[]) {
+                    return await this.model.findById(id).populate(populateFields);
+                }
+
+
+
           }
 export default BaseRepository;

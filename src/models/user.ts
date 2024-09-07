@@ -2,14 +2,32 @@ import { Schema, model, Document } from 'mongoose';
 import Validator from 'validator';
 import hash from '../utils/hashing';
 
-// Define an interface for your schema to use with TypeScript
+
+export type User = Document & {
+  username: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+  avatar: string;
+  role: string;
+  status: string;
+  phone_number: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+  }[];
+  created_at: Date;
+  password_changed_at: Date;
+};
 
 
 // Define the schema with types
 const userSchema = new Schema({
   username: {
     type: String,
-    required: true,
+    required: [true, 'Please provide a username'],
+
   },
   email: {
     type: String,

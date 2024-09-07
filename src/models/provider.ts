@@ -1,6 +1,19 @@
 import { Schema, model, Document } from 'mongoose';
 import Validator from 'validator'; 
 
+export type provider = Document & {
+  name: string;
+  type: string;
+  contactInfo: {
+    email: string;
+    phone: string;
+  };
+  address: string;
+  link: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 const ProviderSchema = new Schema({
 
        name: {

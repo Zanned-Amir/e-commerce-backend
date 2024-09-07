@@ -16,5 +16,4 @@ export {
           ReviewService,
           ProviderService,
           CategoryService
-
 }

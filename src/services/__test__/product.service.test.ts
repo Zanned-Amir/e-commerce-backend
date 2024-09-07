@@ -243,7 +243,7 @@ describe("Product gets Tests", () => {
                     it("should get a product by id with populated category and provider", async () => {
                               const products = await productService.getProducts();
                               const product = await productService.getProductById(products[0]._id, true ,[["category","name"], ["provider", "name"]]);
-                              console.log(product);
+                              
                               expect(product).toHaveProperty("name", "Product0");
                               expect(product).toHaveProperty("description", "Product description0");
                               expect(product).toHaveProperty("price", 1000);

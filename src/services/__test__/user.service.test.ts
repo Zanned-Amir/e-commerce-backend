@@ -78,7 +78,7 @@ describe("UserService", () => {
 
       await userService.createUser(user);
 
-      await expect(userService.createUser(user)).rejects.toBeTruthy();
+      await expect(userService.createUser(user)).rejects.toThrow('E11000 duplicate key error');
     });
 
   });

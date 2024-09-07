@@ -14,6 +14,7 @@ class CategoryRepository extends BaseRepository {
           return await Category.findByIdAndUpdate(id, {status: true}, {new: true});
       }
 
+   
       
 }
 

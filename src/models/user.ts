@@ -27,11 +27,10 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, 'Please provide a username'],
-
   },
   email: {
     type: String,
-    unique: true,
+    unique: [true, 'Email already exists'],
     required: [true, 'Please provide an email'],
     validate: {
       validator: (email: string) => Validator.isEmail(email),

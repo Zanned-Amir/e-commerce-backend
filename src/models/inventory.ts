@@ -45,13 +45,18 @@ const inventorySchema = new Schema({
 
 
 
-inventorySchema.pre('save', function (next) {
+inventorySchema.pre('validate', function (next) {
    
   const existProduct = Product.exists({ _id: this.product });
   if (!existProduct) {
     return next(new AppError('Product does not exist', 404));
   }
 
+  next();
+});
+
+inventorySchema.pre('save', function (next) {
+  this.updated_at = new Date();
   next();
 });
 

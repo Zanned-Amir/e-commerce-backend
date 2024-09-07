@@ -1,9 +1,8 @@
-const addPopulateFields = (fieldsToPopulate: string[]) => {
+const addPopulateFields = (fieldsToPopulate: any[]) => {
   return fieldsToPopulate.map((field) => ({
-    path: field,
+    path: field[0],
+    select: field[1] ? field[1] : '',
   }));
 };
 
-// Example usage
-const fields = addPopulateFields(["product", "user"]);
-console.log(fields); // Output: [{ path: "product" }, { path: "user" }]
+export default addPopulateFields;

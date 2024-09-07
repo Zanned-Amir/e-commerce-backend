@@ -90,7 +90,7 @@ orderSchema.pre('validate', function (next) {
 });
 
 // Middleware to validate if references (User and Products) exist
-orderSchema.pre('save', async function (next) {
+orderSchema.pre('validate', async function (next) {
   try {
     // Fetch user and products from the database
     const [userExists, products] = await Promise.all([
@@ -118,5 +118,13 @@ orderSchema.pre('save', async function (next) {
     next(error);
   }
 });
+
+orderSchema.pre('save', function (next) {
+          this.updated_at = new Date();
+          next();
+          });
+
+
+
 
 export default model('Order', orderSchema);

@@ -70,7 +70,7 @@ const  productSchema = new Schema({
 );
 
 
-productSchema.pre('save', async function (next) {
+productSchema.pre('validate', async function (next) {
    
        // Perform bulk lookups to check existence of category and provider
        const [categoryExists, providerExists] = await Promise.all([
@@ -88,6 +88,11 @@ productSchema.pre('save', async function (next) {
      
        next();
      });
+
+productSchema.pre('save', function (next) {
+       this.updated_at = new Date();
+       next();
+       });
 
 export default model('Product', productSchema);
 

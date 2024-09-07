@@ -34,7 +34,8 @@ abstract class BaseRepository {
                 }
 
                 async createWithPopulate(data: any, populateFields: any[]) {
-                    return this.model.create(data).populate(populateFields);
+                    const createdDocument = await this.model.create(data);
+                    return this.model.findById(createdDocument._id).populate(populateFields);
                 }
 
                 async findWithPopulate(query: any = {}, populateFields: any[]) {
@@ -43,6 +44,10 @@ abstract class BaseRepository {
 
                 async findByIdWithPopulate(id: string, populateFields: any[]) {
                     return await this.model.findById(id).populate(populateFields);
+                }
+
+                async updateWithPopulate(id: string, data: any, populateFields: any[], options: any = {}) {
+                    return await this.model.findByIdAndUpdate(id, data, { new: true ,...options }).populate(populateFields);
                 }
 
 

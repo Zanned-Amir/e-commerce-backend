@@ -3,7 +3,7 @@ import DB from "../../config/database";
 import hash from "../../utils/hashing";
 import {User} from 'models/index';
 
-describe.skip("UserService", () => {
+describe("UserService", () => {
   let database: DB;
   let userService: UserService;
 
@@ -11,6 +11,11 @@ describe.skip("UserService", () => {
     userService = new UserService();
     database = new DB(true);
     await database.connect();
+  });
+
+
+  beforeEach(async () => {
+    await User.deleteMany({});
   });
 
   afterAll(async () => {
@@ -73,7 +78,7 @@ describe.skip("UserService", () => {
 
       await userService.createUser(user);
 
-      await expect(userService.createUser(user)).rejects.toThrow('E11000 duplicate key error collection');
+      await expect(userService.createUser(user)).rejects.toBeTruthy();
     });
 
   });

@@ -1,5 +1,6 @@
+import { run } from "node:test";
 import { OrderRepository } from "../repositories/index";
-import ApiFeature from "../utils/api.feature";
+import {ApiFeature , addPopulateFields } from '../utils/index';
 
 class OrderService {
 
@@ -10,8 +11,21 @@ class OrderService {
           }
 
 
-          async createOrder(data: any) {
-                    return await this._orderRepository.create(data);
+          async createOrder(data: any , populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+
+                              return await this._orderRepository.createWithPopulate(data, fieldP);
+                    }
+                    else {
+                              return await this._orderRepository.create(data);
+                    }
+
+
+          
+                 
+                  
           }
 
           async getOrders(query: any = {}) {
@@ -26,15 +40,32 @@ class OrderService {
                    
           }
 
-          async getOrderById(id: string) {
-                    return await this._orderRepository.findById(id);
+          async getOrderById(id: string , populated: boolean = false, fields: any[] = []) {
+                    
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+            
+                              return await this._orderRepository.findByIdWithPopulate(id, fieldP);
+                    }
+                    else {
+                              return await this._orderRepository.findById(id);
+                    }
           }
 
-          async updateOrder(id: string, data: any) {
-                    return await this._orderRepository.update(id, data);
+          async updateOrder(id: string, data: any , populated: boolean = false, fields: any[] = []) {
+                    
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+
+                              return await this._orderRepository.updateWithPopulate(id, data, fieldP);
+                    }
+                    else {
+                              return await this._orderRepository.update(id, data,{runValidators: true});
+                    }
+                  
           }
 
-          async updateOrderStatus(id: string, status: string) {
+          async updateOrderStatus(id: string, status: string  ) {
                     return await this._orderRepository.updateStatus(id, status);
           }
           

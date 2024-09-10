@@ -10,6 +10,7 @@ export type product = Document & {
           vat: number;
           category: string;
           provider: string;
+          images: string[];
           status: boolean;
           created_at: Date;
           updated_at: Date;
@@ -34,7 +35,8 @@ const  productSchema = new Schema({
                     type: Number,
                     required: true,
                     min: [0, 'Vat must be greater than 0'],
-                    max: [100, 'Vat must be less than 100']
+                    max: [100, 'Vat must be less than 100'],
+                    default: 0,
           },
           //ref is used to reference the category model
           category: {
@@ -50,6 +52,13 @@ const  productSchema = new Schema({
                     required: true,
                   
           },
+
+          images: [
+                    {
+                              type: String,
+                              required: [true, 'Image is required'],
+                    },
+          ],
           status: {
                  type: Boolean,
                  default: true

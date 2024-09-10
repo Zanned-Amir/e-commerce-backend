@@ -4,6 +4,7 @@ import ExpressMongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors';
 import morgan from 'morgan';
 const xss = require('xss-clean');
+import hpp from 'hpp';
 import routes from './routes/index';
 import golbalErrorHandler from './controllers/error.controller';
 import AppError from './utils/app.error';
@@ -21,7 +22,8 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(mongoSanitize)
-app.use(xss() );
+app.use(xss());
+app.use(hpp());
 
 app.use('/api/v1', routes);
 

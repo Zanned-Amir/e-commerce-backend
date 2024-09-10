@@ -1,22 +1,26 @@
 import  { Router } from 'express';
 import { UserController } from '../controllers/index';
 
-const  router = Router();
+import {UserValidation} from '../middlewares/index';
+import { handleValidation } from '../middlewares/index';
+
+
+const router = Router();
 const userController = new UserController();
 
+router.route('/')
+  .get(UserValidation.query(), handleValidation, userController.getAllUsers)
+  .post(UserValidation.createUser(), handleValidation, userController.createUser);
 
-router.route('/').get(userController.getAllUsers);
+router.route('/:id')
+  .get(UserValidation.params(), handleValidation, userController.getUser)
+  .patch(UserValidation.updateUser(), handleValidation, userController.updateUser)
+  .delete(UserValidation.params(), handleValidation, userController.deleteUser);
 
-router.route('/').post(userController.createUser);
+router.route('/:id/deactivate')
+  .patch(UserValidation.params(), handleValidation, userController.deactivateUser);
 
-router.route('/:id').get(userController.getUser);
-
-router.route('/:id').patch(userController.updateUser);
-
-router.route('/:id').delete(userController.deleteUser);
-
-router.route('/:id/deactivate').patch(userController.deactivateUser);
-
-router.route('/:id/activate').patch(userController.activateUser);
+router.route('/:id/activate')
+  .patch(UserValidation.params(), handleValidation, userController.activateUser);
 
 export default router;

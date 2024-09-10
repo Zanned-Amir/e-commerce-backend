@@ -6,3 +6,4 @@ export type user = {
           status: 'inactive' | 'active' | 'banned'; 
           created_at?: Date;
           }
+          

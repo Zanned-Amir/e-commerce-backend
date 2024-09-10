@@ -48,7 +48,7 @@ describe("UserService", () => {
 
     it("should raise an error if the password and password_confirm do not match", async () => {
       const user = {
-        username: "test",
+        username: "test100",
         email: "test1@gmail.com",
         password: "@Password1",
         password_confirm: "@P"
@@ -59,7 +59,7 @@ describe("UserService", () => {
 
     it("should raise an error if the password is not strong", async () => {
       const user = {
-        username: "test",
+        username: "test111",
         email: "test1@gmail.com",
         password: "assword1",
         password_confirm: "assword1"
@@ -70,7 +70,7 @@ describe("UserService", () => {
 
     it("should prevent duplicated email", async () => {
       const user = {
-        username: "test",
+        username: "test111",
         email: "test@gmail.com",
         password: "@Password1",
         password_confirm: "@Password1"

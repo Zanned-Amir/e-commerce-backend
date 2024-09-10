@@ -1,5 +1,5 @@
 import { InventoryRepository } from "../repositories/index";
-import ApiFeature from "../utils/api.feature";
+import {ApiFeature , addPopulateFields } from '../utils/index';
 
 class InventoryService {
 
@@ -9,8 +9,16 @@ class InventoryService {
           this._inventoryRepository = new InventoryRepository();
           }
 
-          createInventory(data: any) {
-                    return this._inventoryRepository.create(data);
+          createInventory(data: any , populated: boolean = false, fields: any[] = []) {
+                                  
+                              const fieldP = addPopulateFields(fields);
+                              if (populated) {
+          
+                                        return this._inventoryRepository.createWithPopulate(data, fieldP);
+                              }
+                              else {
+                                        return this._inventoryRepository.create(data);
+                              }
           }
 
           getInventories(query: any = {}) {
@@ -25,12 +33,34 @@ class InventoryService {
                    
           }
 
-          getInventoryById(id: string) {
-                    return this._inventoryRepository.findById(id);
+          getInventoryById(id: string , populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+            
+                              return this._inventoryRepository.findByIdWithPopulate(id, fieldP);
+                    }
+                    else {
+                              return this._inventoryRepository.findById(id);
+                    }
+
+                              
+                          
           }
 
-          updateInventory(id: string, data: any) {
-                    return this._inventoryRepository.update(id, data);
+          updateInventory(id: string, data: any , populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+
+                              return this._inventoryRepository.updateWithPopulate(id, data, fieldP);
+                    }
+                    else {
+                              return this._inventoryRepository.update(id, data);
+                    }
+
+                                
+                                 
           }
 
           deleteInventory(id: string) {

@@ -8,11 +8,13 @@ class Database {
 
           constructor(test: boolean = false) {
                     this.DB = process.env.DATABASE_LOCAL_JEST as string;
+                    /*
                     if (process.env.NODE_ENV === "production") {
                               this.DB = process.env.DATABASE
                                         ?.replace("<PASSWORD>", process.env.DATABASE_PASSWORD as string)
                                          .replace("<DB_NAME>",process.env.DATABASE_NAME as string) as string;
                     }
+                                         */
 
                     if (test) {
                               this.DB = process.env.DATABASE_LOCAL_JEST as string;

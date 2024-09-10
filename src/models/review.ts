@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 import { Product, User } from './index';
-import AppError from 'utils/app.error';
+import AppError from '../utils/app.error';
 
 export type Review = Document & {
   product: Schema.Types.ObjectId;

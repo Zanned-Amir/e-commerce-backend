@@ -1,5 +1,5 @@
 import { ProductRepository } from "../repositories/index";
-import { addPopulateFields , ApiFeature} from "utils";
+import { addPopulateFields , ApiFeature} from "../utils/index";
 class ProductService {
 
           private _productRepository: ProductRepository;

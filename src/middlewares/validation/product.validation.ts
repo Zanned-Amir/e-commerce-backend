@@ -1,7 +1,7 @@
 import { check, param } from 'express-validator';
 
 class OrderValidation {
-  // Create Order Validation
+
   static createOrder() {
     return [
       check('user')
@@ -36,7 +36,7 @@ class OrderValidation {
     ];
   }
 
-  // Update Order Validation
+ 
   static updateOrder() {
     return [
       param('id')
@@ -61,23 +61,20 @@ class OrderValidation {
     ];
   }
 
-  // Delete Order Validation
-  static deleteOrder() {
-    return [
-      param('id')
-        .isMongoId()
-        .withMessage('Order ID must be a valid MongoDB ID'),
-    ];
-  }
 
-  // Get Order by ID Validation
-  static getOrderById() {
-    return [
-      param('id')
-        .isMongoId()
-        .withMessage('Order ID must be a valid MongoDB ID'),
-    ];
-  }
+      
+       static params() {
+          return [
+            check('id').isMongoId().withMessage('Invalid ID format'),
+          ];
+        }
+
+
+        static query() {
+          return [
+            check('status').optional().isIn(['pending', 'completed', 'cancelled']),
+          ];
+        }
 }
 
 export default OrderValidation;

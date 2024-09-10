@@ -1,5 +1,6 @@
 import { CategoryRepository } from "../repositories/index"; 
-import ApiFeature from "../utils/api.feature";
+import {ApiFeature , addPopulateFields } from '../utils/index';
+
 
 
 
@@ -11,8 +12,20 @@ class CategoryService {
           this._categoryRepository = new CategoryRepository();
           }
 
-          async createCategory(data: any) {
-                    return await this._categoryRepository.create(data);
+          async createCategory(data: any , populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+            
+                              return await this._categoryRepository.createWithPopulate(data, fieldP);
+                    }
+                    else {
+                              return await this._categoryRepository.create(data);
+                    }
+
+                    
+                   
+
           }
 
           async getCategories(query: any = {}) {
@@ -27,12 +40,32 @@ class CategoryService {
                    
           }
 
-          async getCategoryById(id: string) {
-                    return await this._categoryRepository.findById(id);
+          async getCategoryById(id: string , populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+            
+                              return await this._categoryRepository.findByIdWithPopulate(id, fieldP);
+                    }
+                    else {
+                              return await this._categoryRepository.findById(id);
+                    }
+
+
+                  
           }
 
-          async updateCategory(id: string, data: any) {
-                    return await this._categoryRepository.update(id, data);
+          async updateCategory(id: string, data: any , populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+
+                              return await this._categoryRepository.updateWithPopulate(id, data, fieldP);
+                    }
+                    else {
+                              return await this._categoryRepository.update(id, data);
+                    }
+                  
           }
 
           async deactivateCategory(id: string) {

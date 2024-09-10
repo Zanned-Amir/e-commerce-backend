@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import AppError from '../utils/app.error';
-import catchAsync from '../utils/catch.async';
+import { Request, Response , NextFunction } from 'express';
+import {AppError ,catchAsync  } from '../utils/index';
 import { UserService} from '../services/index';
 import { user } from '../types/user';
+
 
 
 
@@ -20,7 +20,7 @@ import { user } from '../types/user';
   }
           
 
-         getAllUsers = catchAsync(async (req: Request, res: Response) => {
+         getAllUsers = catchAsync(async (req: Request, res: Response , next:NextFunction) => {
 
           const query = req.query;
           const users = await this._userService.getUsers(query);
@@ -34,10 +34,16 @@ import { user } from '../types/user';
           
         });
 
-           createUser = catchAsync(async (req: Request, res: Response) => {
+           createUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
-            const body: user = req.body;
-            const newUser = await this._userService.createUser(body);
+
+              const  { username , email , password , password_confirm  , address , phone_number } = req.body;
+
+            
+
+              const user = { username , email , password,  password_confirm   , address , phone_number };
+
+            const newUser = await this._userService.createUser(user);
 
             res.status(201).json({
               status: 'success',
@@ -46,7 +52,7 @@ import { user } from '../types/user';
            
           });
 
-           getUser = catchAsync(async (req: Request, res: Response) => {
+           getUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
             const id: string = req.params.id;
             const user = await this._userService.getUserById(id);
@@ -61,11 +67,13 @@ import { user } from '../types/user';
             });
           });
 
-           updateUser = catchAsync(async (req: Request, res: Response) => {
+           updateUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
             const id: string = req.params.id;
-            const body: user = req.body;
-            const updatedUser = await this._userService.updateUser(id, body);
+            const  {  email , address , phone_number } = req.body;
+
+            const user = { email , address , phone_number };
+            const updatedUser = await this._userService.updateUser(id,user);
 
             res.status(200).json({
               status: 'success',
@@ -74,7 +82,7 @@ import { user } from '../types/user';
             });
           });
 
-           deleteUser = catchAsync(async (req: Request, res: Response) => {
+           deleteUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
             const id: string = req.params.id;
             await this._userService.deleteUser(id);
@@ -86,7 +94,7 @@ import { user } from '../types/user';
 
           });
 
-           deactivateUser = catchAsync(async (req: Request, res: Response) => {
+           deactivateUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
             const id: string = req.params.id;
             await this._userService.deactivateUser(id);
@@ -100,7 +108,7 @@ import { user } from '../types/user';
                     
                     });
 
-            activateUser = catchAsync(async (req: Request, res: Response) => {
+            activateUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                 
                 const id: string = req.params.id;
                 await this._userService.activateUser(id);

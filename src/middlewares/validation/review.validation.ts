@@ -1,7 +1,7 @@
 import { check } from 'express-validator';
 
 class ReviewValidation {
-  // Validation for creating a review
+ 
   static createReview() {
     return [
       check('product').isMongoId().withMessage('Invalid Product ID format'),
@@ -12,7 +12,7 @@ class ReviewValidation {
     ];
   }
 
-  // Validation for updating a review
+
   static updateReview() {
     return [
       check('product').optional().isMongoId().withMessage('Invalid Product ID format'),
@@ -23,7 +23,7 @@ class ReviewValidation {
     ];
   }
 
-  // Validation for query parameters
+
   static query() {
     return [
       check('product').optional().isMongoId().withMessage('Invalid Product ID format'),
@@ -33,7 +33,6 @@ class ReviewValidation {
     ];
   }
 
-  // Validation for retrieving a review by ID
   static params() {
     return [
       check('id').isMongoId().withMessage('Invalid Review ID format'),

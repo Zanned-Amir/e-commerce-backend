@@ -27,6 +27,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, 'Please provide a username'],
+    unique: [true, 'Username already exists'],
   },
   email: {
     type: String,
@@ -95,7 +96,7 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  password_changed_at: Date,
+  password_changed_at:  Date,
 },
 {
   toJSON: { virtuals: true },

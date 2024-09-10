@@ -119,10 +119,18 @@ orderSchema.pre('validate', async function (next) {
   }
 });
 
+orderSchema.pre("validate", function (next) {
+  this.total = this.products.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  next();
+});
+
 orderSchema.pre('save', function (next) {
-          this.updated_at = new Date();
-          next();
-          });
+  this.updated_at = new Date();
+  next();
+});
+
+
 
 
 

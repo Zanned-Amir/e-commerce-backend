@@ -1,5 +1,5 @@
 import {ReviewRepository} from '../repositories/index';
-import ApiFeature from "../utils/api.feature";
+import {ApiFeature, addPopulateFields} from "../utils/index";
 
 class ReviewService {
 
@@ -9,8 +9,15 @@ class ReviewService {
           this._reviewRepository = new ReviewRepository();
           }
 
-          async createReview(data: any) {
-                    return await this._reviewRepository.create(data);
+          async createReview(data: any, populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if(populated) {
+                              return await this._reviewRepository.createWithPopulate(data, fields);
+                    }
+                    else {
+                              return await this._reviewRepository.create(data);
+                    }
           }
 
           async getReviews(query: any = {}) {
@@ -25,12 +32,31 @@ class ReviewService {
                    
           }
 
-          async getReviewById(id: string) {
-                    return await this._reviewRepository.findById(id);
+          async getReviewById(id: string ,populated: boolean = false, fields: any[] = []) {
+
+                              const fieldP = addPopulateFields(fields);
+                              if (populated) {
+          
+                                        return await this._reviewRepository.findByIdWithPopulate(id, fieldP);
+                              }
+                              else {
+                                        return await this._reviewRepository.findById(id);
+                              }
+          
+                    
+                    
           }
 
-          async updateReview(id: string, data: any) {
-                    return await this._reviewRepository.update(id, data);
+          async updateReview(id: string, data: any, populated: boolean = false, fields: any[] = []) {
+
+                    const fieldP = addPopulateFields(fields);
+                    if (populated) {
+                              return await this._reviewRepository.updateWithPopulate(id, data, fieldP);
+                    }
+                    else {
+                              return await this._reviewRepository.update(id, data);
+                    }
+                    
           }
 
           async deleteReview(id: string) {

@@ -37,13 +37,12 @@ import { user } from '../types/user';
            createUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
 
-              const  { username , email , password , password_confirm  , address , phone_number } = req.body;
+              const  body = req.body;
 
             
 
-              const user = { username , email , password,  password_confirm   , address , phone_number };
 
-            const newUser = await this._userService.createUser(user);
+            const newUser = await this._userService.createUser(body);
 
             res.status(201).json({
               status: 'success',
@@ -70,10 +69,9 @@ import { user } from '../types/user';
            updateUser = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
             const id: string = req.params.id;
-            const  {  email , address , phone_number } = req.body;
+            const  body = req.body;
 
-            const user = { email , address , phone_number };
-            const updatedUser = await this._userService.updateUser(id,user);
+            const updatedUser = await this._userService.updateUser(id,body);
 
             res.status(200).json({
               status: 'success',

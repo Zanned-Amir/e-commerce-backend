@@ -13,7 +13,8 @@ export type category = Document & {
 const CategorySchema = new Schema({
           name: {
           type: String,
-          required: true,
+          unique : true,
+          required:   true,        
           },
           description: {
           type: String,

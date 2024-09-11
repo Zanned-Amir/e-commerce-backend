@@ -11,7 +11,7 @@ abstract class BaseRepository {
                     this.model = model;
           }
 
-          async create(data: any) {
+                async create(data: any) {
                     return await this.model.create(data);
                 }
                 find(query: any = {}) {
@@ -24,7 +24,7 @@ abstract class BaseRepository {
                     return await this.model.findOne(conditions);
                 }
                 async update(id: string, data: any , options: any = {}) {
-                    return await this.model.findByIdAndUpdate(id, data, { new: true, ...options });
+                    return await this.model.findByIdAndUpdate(id, data, { new: true, runValidator:true , ...options });
                 }
                 async delete(id: string) {
                     return await this.model.findByIdAndDelete(id);
@@ -47,7 +47,7 @@ abstract class BaseRepository {
                 }
 
                 async updateWithPopulate(id: string, data: any, populateFields: any[], options: any = {}) {
-                    return await this.model.findByIdAndUpdate(id, data, { new: true ,...options }).populate(populateFields);
+                    return await this.model.findByIdAndUpdate(id, data, { new: true, runValidator:true  ,...options }).populate(populateFields);
                 }
 
 

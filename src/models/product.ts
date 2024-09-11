@@ -3,17 +3,23 @@ import Validator from 'validator';
 import {Category , Provider} from './index';
 import AppError from '../utils/app.error';
 
-export type product = Document & {
-          name: string;
-          description: string;
-          price: number;
-          vat: number;
-          category: string;
-          provider: string;
-          images: string[];
-          status: boolean;
-          created_at: Date;
-          updated_at: Date;
+// src/models/product.ts
+export type Product = Document & {
+  name: string;
+  description: string;
+  price: number;
+  vat: number;
+  category: Schema.Types.ObjectId;
+  provider: Schema.Types.ObjectId;
+  images: string[];
+  status: boolean;
+  created_at: Date;
+  updated_at: Date;
+  discount?: {
+    value: number;
+    start_date?: Date;
+    end_date?: Date;
+  };
 };
 
 const  productSchema = new Schema({
@@ -71,6 +77,24 @@ const  productSchema = new Schema({
                     type: Date,
                     default: Date.now,
           },
+
+          discount:{
+            value: {
+                      type: Number,
+                      required: false,
+                      min: [0, 'Discount must be greater than 0'],
+                      max: [100, 'Discount must be less than 100'],
+                      default: 0,
+            },
+            start_date: {
+                      type: Date,
+                      required: false,
+            },
+            end_date: {
+                      type: Date,
+                      required: false,
+            }
+          }
           },
           {
                     toJSON: { virtuals: true },
@@ -94,6 +118,7 @@ productSchema.pre('validate', async function (next) {
        if (!providerExists) {
          return next(new AppError('Provider does not exist', 404));
        }
+
      
        next();
      });

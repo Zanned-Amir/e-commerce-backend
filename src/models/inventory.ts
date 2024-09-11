@@ -18,7 +18,6 @@ const inventorySchema = new Schema({
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Product',
-    required: true,
   },
   label: {
     type: String,

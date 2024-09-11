@@ -11,9 +11,10 @@ export type Order = Document & {
       quantity: number;
       price: number;
       discount: number;
+      total: number;  // New field to store total for each product
     }
   ];
-  total: number;
+  total: number;  // Total order price
   status: string;
   created_at: Date;
   updated_at: Date;
@@ -45,14 +46,17 @@ const orderSchema = new Schema(
         },
         price: {
           type: Number,
-          required: true,
           min: [0.001, 'Price must be greater than 0'],
         },
         discount: {
           type: Number,
-          required: false,
+          default: 0,
           min: [0, 'Discount must be greater than 0'],
           max: [100, 'Discount must be less than 100'],
+        },
+        total: {
+          type: Number,
+          default: 0, 
         },
       },
     ],
@@ -60,6 +64,13 @@ const orderSchema = new Schema(
       type: Number,
       required: true,
       min: [0.001, 'Total must be greater than 0'],
+    },
+    discount: {
+      type: Number,
+      default: 0,
+      min: [0, 'Discount must be greater than 0'],
+      max: [100, 'Discount must be less than 100'],
+
     },
     status: {
       type: String,
@@ -81,58 +92,56 @@ const orderSchema = new Schema(
   }
 );
 
-// Middleware to validate if the order contains at least one product
-orderSchema.pre('validate', function (next) {
-  if (this.products.length === 0) {
-    this.invalidate('products', 'Order must contain at least one product');
-  }
-  next();
-});
-
-// Middleware to validate if references (User and Products) exist
 orderSchema.pre('validate', async function (next) {
   try {
-    // Fetch user and products from the database
-    const [userExists, products] = await Promise.all([
-      User.exists({ _id: this.user }),
-      Product.find({ _id: { $in: this.products.map((item) => item.product) } }),
-    ]);
+    let orderTotal = 0;
 
-    // Check if user exists
-    if (!userExists) {
-      return next(new AppError('User does not exist', 404));
+    // Loop through each product in the order
+    for (let item of this.products) {
+      // Fetch the product from the database
+      const product = await Product.findById(item.product);
+      if (!product) {
+        return next(new AppError(`Product with id ${item.product} does not exist`, 404));
+      }
+
+      // Get the product discount if it exists
+      const productDiscount = product.discount?.value || 0;
+      const priceAfterProductDiscount = product.price * (1 - productDiscount / 100);
+
+      // Calculate the total price for this product
+      item.price = product.price;
+      item.discount = productDiscount;
+      item.total = priceAfterProductDiscount * item.quantity;
+
+      // Apply order discount only if the product does not have a discount
+      if (productDiscount === 0 && this.discount > 0) {
+        item.total = item.total * (1 - this.discount / 100);
+      }
+
+      // Add to the overall order total
+      orderTotal += item.total;
     }
 
-    // Identify which products do not exist
-    const existingProductIds = new Set(products.map(product => product._id.toString()));
-    const missingProductIds = this.products
-      .map(product => product.product.toString())
-      .filter(id => !existingProductIds.has(id));
-
-    if (missingProductIds.length > 0) {
-      return next(new AppError(`The following products do not exist: ${missingProductIds.join(', ')}`, 404));
-    }
+    // Set the total price for the order
+    this.total = orderTotal;
 
     next();
-  } catch (error : any) {
+  } catch (error :any ) {
     next(error);
   }
 });
 
-orderSchema.pre("validate", function (next) {
-  this.total = this.products.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
-  next();
-});
-
+// Middleware to update `updated_at` timestamp on save
 orderSchema.pre('save', function (next) {
   this.updated_at = new Date();
   next();
 });
 
-
-
-
-
-
 export default model('Order', orderSchema);
+
+
+
+
+
+
+

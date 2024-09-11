@@ -26,21 +26,22 @@ export type User = Document & {
 const userSchema = new Schema({
   username: {
     type: String,
-    required: [true, 'Please provide a username'],
-    unique: [true, 'Username already exists'],
+    unique: true,
+    required: true,
   },
   email: {
     type: String,
-    unique: [true, 'Email already exists'],
-    required: [true, 'Please provide an email'],
+    unique: true,
+    required: true,
     validate: {
       validator: (email: string) => Validator.isEmail(email),
       message: 'Please provide a valid email',
     },
   },
   password: {
+    
     type: String,
-    required: [true, 'Please provide a password'],
+    required: true,
     minlength: 8,
     select: false,
     validate: {

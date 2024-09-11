@@ -19,6 +19,7 @@ const ProviderSchema = new Schema({
        name: {
           type: String,
           required: true,
+          unique: true,
         },
         type: {
           type: String,
@@ -36,6 +37,7 @@ const ProviderSchema = new Schema({
           phone: {
             type: String,
             required: true,
+            unique: true,
           },
         },
         address: {
@@ -61,5 +63,6 @@ const ProviderSchema = new Schema({
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
       });
+
 
 export default model('Provider', ProviderSchema);

@@ -10,7 +10,7 @@ const handleValidation = (req: Request, res: Response, next: NextFunction) => {
     return next(error);
   }
 
-  
+  next();
 };
 
 export default handleValidation;

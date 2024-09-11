@@ -7,7 +7,7 @@ class Database {
           private DB: string;
 
           constructor(test: boolean = false) {
-                    this.DB = process.env.DATABASE_LOCAL_JEST as string;
+                    this.DB = process.env.DATABASE_LOCAL as string;
                     /*
                     if (process.env.NODE_ENV === "production") {
                               this.DB = process.env.DATABASE
@@ -27,10 +27,12 @@ class Database {
           
           async connect() {
           try {
-                    await mongoose.connect(this.DB, {
-
-                    });
-                    console.log("Database connected successfully");
+                    await mongoose.connect(this.DB);
+                              
+                   
+                              
+                              
+                              console.log("Database connected successfully");
           } catch (error) {
                     console.log("Database connection failed",error);
           }

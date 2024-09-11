@@ -9,6 +9,7 @@ import categoryRouter from './category.routes';
 
 import { Router } from 'express';
 
+//Todo:  add for  each route cleanRequest  function to clean request body before sending to controller
 const router = Router();
 
 router.use('/users', userRouter);

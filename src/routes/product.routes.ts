@@ -5,6 +5,9 @@ const  router = Router();
 const productController = new ProductController();
 
 
+
+router.route('/count').get(productController.countProducts);
+
 router.route('/').get(productController.getAllProducts);
 
 router.route('/').post(productController.createProduct);
@@ -17,7 +20,6 @@ router.route('/:id/deactivate').patch(productController.deactivateProduct);
 
 router.route('/:id/activate').patch(productController.activateProduct);
 
-router.route('/:id/count').patch(productController.countProducts);
 
 
 router.route('/:id').delete(productController.deleteProduct);

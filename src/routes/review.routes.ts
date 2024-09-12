@@ -5,6 +5,7 @@ const router = Router();
 
 const reviewController = new ReviewController();
 
+router.route('/count').patch(reviewController.countReviews);
 
 router.route('/').get(reviewController.getAllReviews);
 
@@ -20,7 +21,7 @@ router.route('/:id/hide').patch(reviewController.hideReview);
 
 router.route('/:id/show').patch(reviewController.showReview);
 
-router.route('/:id/count').patch(reviewController.countReviews);
+
 
 export default router;
 

@@ -118,6 +118,15 @@ import { user } from '../types/user';
   
               });
 
+              countUsers = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
+
+                const count = await this._userService.countUsers();
+                res.status(200).json({
+                  status: 'success',
+                  data: count,
+                });
+              });
+
           
 
 }

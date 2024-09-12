@@ -17,7 +17,7 @@ router.use('/products', productRouter);
 router.use('/orders', orderRouter);
 router.use('/payments', paymentRouter);
 router.use('/reviews', reviewRouter);
-router.use('/inventory', inventoryRouter);
+router.use('/inventories', inventoryRouter);
 router.use('/providers', providerRouter);
 router.use('/categories', categoryRouter);
 

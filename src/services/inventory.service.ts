@@ -21,17 +21,30 @@ class InventoryService {
                               }
           }
 
-          getInventories(query: any = {}) {
-
+          getInventories(query: any = {}, pop: boolean = false) {
                     const apiFeatures = new ApiFeature(this._inventoryRepository.find(), query)
-                    .filter(['page', 'sort', 'limit', 'fields'])
-                    .sort()
-                    .limitFields()
-                    .paginate();
+                      .filter(['page', 'sort', 'limit', 'fields'])
+                      .sort()
+                      .limitFields()
+                      .paginate();
+                              if(pop) {
+                                        apiFeatures.query = apiFeatures.query.populate(
+                                                  
+                                                  {
+                                                            "path": "product",
+                                                            "select": "name"
+                                                  }
+                                                  
+                                        
+             
+                                        );
+          
+                              }
+                    
+                  
                     return apiFeatures.query.exec();
-                              
-                   
-          }
+                  }
+                  
 
           getInventoryById(id: string , populated: boolean = false, fields: any[] = []) {
 

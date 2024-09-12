@@ -18,6 +18,7 @@ const inventorySchema = new Schema({
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Product',
+    unique: true,
   },
   label: {
     type: String,
@@ -27,18 +28,13 @@ const inventorySchema = new Schema({
     required: true,
     min: [0, 'Quantity must be greater than 0'],
   },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
+
 },
   {
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    optimisticConcurrency: true,
   }
 );
 
@@ -54,10 +50,7 @@ inventorySchema.pre('validate', function (next) {
   next();
 });
 
-inventorySchema.pre('save', function (next) {
-  this.updated_at = new Date();
-  next();
-});
+
 
 
 

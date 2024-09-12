@@ -60,6 +60,7 @@ class PaymentController {
           updatePaymentStatus = catchAsync(async (req: Request, res: Response) => {
                               const id: string = req.params.id;
                               const status: string = req.body.status;
+                            
                               const updatedPayment = await this._paymentService.updatePaymentStatus(id, status);
           
                               res.status(200).json({

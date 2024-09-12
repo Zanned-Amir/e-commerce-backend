@@ -12,10 +12,12 @@ router.route('/:id').get(orderController.getOrder);
 
 router.route('/:id').patch(orderController.updateOrder);
 
+
+router.route('/:id/shipping-status').patch(orderController.updateOrderStatus);
+
 router.route('/:id').delete(orderController.deleteOrder);
 
 
-router.route('/:id/status').patch(orderController.updateOrderStatus);
 
 
 export default router;

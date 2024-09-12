@@ -5,6 +5,8 @@ const router = Router();
 
 const categoryController = new CategoryController();
 
+router.route('/count').patch(categoryController.countCategories);
+
 router.route('/').get(categoryController.getAllCategories);
 
 router.route('/').post(categoryController.createCategory);
@@ -19,7 +21,7 @@ router.route('/:id/deactivate').patch(categoryController.deactivateCategory);
 
 router.route('/:id/activate').patch(categoryController.activateCategory);
 
-router.route('/:id/count').patch(categoryController.countCategories);
+
 
 
 export default router;

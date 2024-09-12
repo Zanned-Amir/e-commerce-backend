@@ -1,81 +1,77 @@
-import { check, param } from 'express-validator';
+import { check } from 'express-validator';
 
-class OrderValidation {
-
-  static createOrder() {
+class ProductValidation {
+  static createProduct() {
     return [
-      check('user')
-        .isMongoId()
-        .withMessage('User ID must be a valid MongoDB ID'),
-      check('address')
-        .isString()
-        .withMessage('Address must be a string'),
-      check('products')
+      check('name').isString().withMessage('Name is required and must be a string'),
+      check('description').isString().withMessage('Description is required and must be a string'),
+      check('price').isFloat({ min: 0.001 }).withMessage('Price must be greater than 0'),
+      check('vat').optional()
+        .isInt({ min: 0, max: 100 })
+        .withMessage('VAT must be between 0 and 100'),
+      check('category').isMongoId().withMessage('Category ID must be a valid ID'),
+      check('provider').isMongoId().withMessage('Provider ID must be a valid ID'),
+      check('images').optional()
         .isArray({ min: 1 })
-        .withMessage('Products must be an array and cannot be empty'),
-      check('products.*.product')
-        .isMongoId()
-        .withMessage('Product ID must be a valid MongoDB ID'),
-      check('products.*.quantity')
-        .isInt({ min: 1, max: 100 })
-        .withMessage('Quantity must be between 1 and 100'),
-      check('products.*.price')
-        .isFloat({ min: 0.001 })
-        .withMessage('Price must be greater than 0'),
-      check('products.*.discount')
+        .withMessage('At least one image is required')
+        .custom((value: string[]) => value.every(img => typeof img === 'string'))
+        .withMessage('All images must be strings'),
+      check('status').optional().isBoolean().withMessage('Status must be a boolean'),
+      check('discount.value')
         .optional()
         .isFloat({ min: 0, max: 100 })
         .withMessage('Discount must be between 0 and 100'),
-      check('total')
-        .isFloat({ min: 0.001 })
-        .withMessage('Total must be greater than 0'),
-      check('status')
-        .optional()
-        .isIn(['pending', 'completed', 'cancelled'])
-        .withMessage('Status must be pending, completed, or cancelled'),
+      check('discount.start_date').optional().isISO8601().withMessage('Start date must be a valid date'),
+      check('discount.end_date').optional().isISO8601().withMessage('End date must be a valid date'),
     ];
   }
 
- 
-  static updateOrder() {
+  static updateProduct() {
     return [
-      param('id')
-        .isMongoId()
-        .withMessage('Order ID must be a valid MongoDB ID'),
-      check('status')
+      check('name').optional().isString().withMessage('Name must be a string'),
+      check('description').optional().isString().withMessage('Description must be a string'),
+      check('price').optional().isFloat({ min: 0.001 }).withMessage('Price must be greater than 0'),
+      check('vat')
         .optional()
-        .isIn(['pending', 'completed', 'cancelled'])
-        .withMessage('Status must be pending, completed, or cancelled'),
-      check('products')
+        .isInt({ min: 0, max: 100 })
+        .withMessage('VAT must be between 0 and 100'),
+      check('category').optional().isMongoId().withMessage('Category ID must be a valid ID'),
+      check('provider').optional().isMongoId().withMessage('Provider ID must be a valid ID'),
+      check('images')
         .optional()
         .isArray()
-        .withMessage('Products must be an array'),
-      check('products')
-          .optional()
-          .isArray({ min: 1 })
-          .withMessage('Products must be an array and cannot be empty'),
-      check('total')
+        .withMessage('Images must be an array')
+        .custom((value: string[]) => value.every(img => typeof img === 'string'))
+        .withMessage('All images must be strings'),
+      check('status').optional().isBoolean().withMessage('Status must be a boolean'),
+      check('discount.value')
         .optional()
-        .isFloat({ min: 0.001 })
-        .withMessage('Total must be greater than 0'),
+        .isFloat({ min: 0, max: 100 })
+        .withMessage('Discount must be between 0 and 100'),
+      check('discount.start_date').optional().isISO8601().withMessage('Start date must be a valid date'),
+      check('discount.end_date').optional().isISO8601().withMessage('End date must be a valid date'),
     ];
   }
 
+  static query() {
+    return [
+      check('name').optional().isString().withMessage('Name must be a string'),
+      check('price').optional().isFloat({ min: 0.001 }).withMessage('Price must be greater than 0'),
+      check('vat')
+        .optional()
+        .isInt({ min: 0, max: 100 })
+        .withMessage('VAT must be between 0 and 100'),
+      check('category').optional().isMongoId().withMessage('Category ID must be a valid ID'),
+      check('provider').optional().isMongoId().withMessage('Provider ID must be a valid ID'),
+      check('status').optional().isBoolean().withMessage('Status must be a boolean'),
+    ];
+  }
 
-      
-       static params() {
-          return [
-            check('id').isMongoId().withMessage('Invalid ID format'),
-          ];
-        }
-
-
-        static query() {
-          return [
-            check('status').optional().isIn(['pending', 'completed', 'cancelled']),
-          ];
-        }
+  static params() {
+    return [
+      check('id').isMongoId().withMessage('Invalid ID format'),
+    ];
+  }
 }
 
-export default OrderValidation;
-
+export default ProductValidation;

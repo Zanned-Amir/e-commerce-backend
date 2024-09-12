@@ -12,11 +12,11 @@ router.route('/count').get(productController.countProducts);
 
 router.route('/').get(ProductValidation.query(), handleValidation, productController.getAllProducts);
 
-router.route('/').post( ProductValidation.createProduct, handleValidation, productController.createProduct);
+router.route('/').post( ProductValidation.createProduct(), handleValidation, productController.createProduct);
 
 router.route('/:id').get(ProductValidation.params(), handleValidation, productController.getProduct);
 
-router.route('/:id').patch( ProductValidation.updateProduct, handleValidation, productController.updateProduct);
+router.route('/:id').patch( ProductValidation.updateProduct(), handleValidation, productController.updateProduct);
 
 router.route('/:id/deactivate').patch( ProductValidation.params(), handleValidation,productController.deactivateProduct);
 

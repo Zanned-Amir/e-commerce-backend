@@ -35,18 +35,12 @@ const paymentSchema = new Schema({
     default: 'pending',
     message: 'Status must be pending, completed or cancelled',
   },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
+
 },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   }
 );
 
@@ -58,9 +52,6 @@ paymentSchema.pre('validate', async function (next) {
   next();
 });
 
-paymentSchema.pre('save', function (next) {
-  this.updated_at = new Date();
-  next();
-});
+
 
 export default model('Payment', paymentSchema);

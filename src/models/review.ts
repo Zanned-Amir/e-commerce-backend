@@ -39,18 +39,13 @@ const reviewSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
+
 },
 {
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+
 });
 
 reviewSchema.index({ product: 1, user: 1 }, { unique: true });
@@ -72,10 +67,5 @@ reviewSchema.pre('validate', async function (next) {
   next();
 });
 
-reviewSchema.pre('save', function (next) {
-
-  this.updated_at = new Date();
-  next();
-});
 
 export default model('Review', reviewSchema);

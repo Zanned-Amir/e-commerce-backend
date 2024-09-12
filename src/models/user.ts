@@ -93,15 +93,14 @@ const userSchema = new Schema({
     },
   }
   ],
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
+ 
   password_changed_at:  Date,
 },
 {
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+
 });
 
 // Middleware for hashing password before saving

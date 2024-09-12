@@ -77,18 +77,12 @@ const orderSchema = new Schema(
       enum: ['pending', 'completed', 'cancelled'],
       default: 'pending',
     },
-    created_at: {
-      type: Date,
-      default: Date.now,
-    },
-    updated_at: {
-      type: Date,
-      default: Date.now,
-    },
+  
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   }
 );
 
@@ -110,36 +104,36 @@ orderSchema.pre('validate', async function (next) {
       }
 
       while (!success && retries < MAX_RETRIES) {
-        // Fetch the inventory record and apply concurrency check
+       
         const inventory = await Inventory.findOne({ product: item.product }).select('quantity').exec();
 
         if (!inventory) {
           return next(new AppError(`Inventory for product ${item.product} not found`, 404));
         }
 
-        // Check if enough stock is available
+    
         if (inventory.quantity < item.quantity) {
           return next(new AppError(`Not enough stock for product ${item.product}`, 400));
         }
 
-        // Adjust inventory quantity
+     
         inventory.quantity -= item.quantity;
 
-        // Ensure we only throw an error if inventory hits 0 or less
+       
         if (inventory.quantity < 0) {
           return next(new AppError(`Product ${item.product} is out of stock`, 400));
         }
 
         try {
-          // Try to save the inventory, which will trigger version conflict handling
+      
           await inventory.save();
-          success = true; // Success if no conflict
+          success = true; 
         } catch (err: any) {
-          // Check for version conflict
+        
           if (err.name === 'VersionError') {
-            retries += 1; // Retry if version conflict
+            retries += 1;
           } else {
-            return next(err); // Throw other errors
+            return next(err); 
           }
         }
       }
@@ -175,11 +169,7 @@ orderSchema.pre('validate', async function (next) {
   }
 });
 
-// Middleware to update `updated_at` timestamp on save
-orderSchema.pre('save', function (next) {
-  this.updated_at = new Date();
-  next();
-});
+
 
 export default model('Order', orderSchema);
 

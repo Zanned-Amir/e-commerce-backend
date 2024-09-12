@@ -51,17 +51,13 @@ const ProviderSchema = new Schema({
           },
         },
 
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-        updatedAt: {
-          type: Date,
-          default: Date.now,
-        },
+  
       }, {
         toJSON: { virtuals: true },
         toObject: { virtuals: true },
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+
+        
       });
 
 

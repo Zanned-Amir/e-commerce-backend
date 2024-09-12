@@ -69,15 +69,7 @@ const  productSchema = new Schema({
                  type: Boolean,
                  default: true
           },
-          created_at: {
-                    type: Date,
-                    default: Date.now,
-          },
-          updated_at: {
-                    type: Date,
-                    default: Date.now,
-          },
-
+        
           discount:{
             value: {
                       type: Number,
@@ -99,6 +91,7 @@ const  productSchema = new Schema({
           {
                     toJSON: { virtuals: true },
                     toObject: { virtuals: true },
+                    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
           }
 );
 
@@ -123,10 +116,7 @@ productSchema.pre('validate', async function (next) {
        next();
      });
 
-productSchema.pre('save', function (next) {
-       this.updated_at = new Date();
-       next();
-       });
+
 
 export default model('Product', productSchema);
 

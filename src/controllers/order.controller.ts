@@ -35,7 +35,16 @@ class OrderController {
 
           getOrder = catchAsync(async (req: Request, res: Response) => {
                               const id: string = req.params.id;
-                              const order = await this._orderService.getOrderById(id);
+                              let order ;
+
+                              const pop = req.query.pop ||false;
+                              if(pop) {
+                               order = await this._orderService.getOrderById(id,true,[["products.product","name"]]);
+                              }
+                              else {
+                               order = await this._orderService.getOrderById(id);
+         
+                              }
           
                               if (!order) {
                                         throw new AppError('Order not found', 404);

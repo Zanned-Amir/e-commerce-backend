@@ -49,6 +49,11 @@ class ApiFeature {
                     return await this.query.model.countDocuments();
            }
 
+          async populate(fields: any) {
+                    this.query = this.query.populate(fields);
+                    return this;
+          }
+
 }
 
 export default ApiFeature;

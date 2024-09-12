@@ -13,8 +13,18 @@ class InventoryController {
   }
 
   getAllInventory = catchAsync(async (req: Request, res: Response) => {
-    const query = req.query;
-    const inventory = await this._inventoryService.getInventories(query);
+    const pop = req.query.pop || false;
+    const query = delete req.query.pop;
+
+    let inventory;
+
+    if (pop) {
+
+     inventory = await this._inventoryService.getInventories(query , true);
+    }
+    else {
+     inventory = await this._inventoryService.getInventories(query);
+    }
 
     res.status(200).json({
       status: 'success',
@@ -34,7 +44,14 @@ class InventoryController {
 
   getInventory = catchAsync(async (req: Request, res: Response) => {
     const id: string = req.params.id;
-    const inventory = await this._inventoryService.getInventoryById(id);
+    const pop = req.query.pop || false;
+    let  inventory;
+    if(pop) {
+       inventory = await this._inventoryService.getInventoryById(id, true, [['product', 'name']]);
+    } else {
+       inventory = await this._inventoryService.getInventoryById(id);
+    }
+
 
     if (!inventory) {
       throw new AppError('Inventory not found', 404);

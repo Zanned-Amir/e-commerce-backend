@@ -16,17 +16,17 @@ const paymentSchema = new Schema({
   order: {
     type: Schema.Types.ObjectId,
     ref: 'Order',
-    required: [true, 'Order does not exist'],
+    required: true ,
   },
   payment_method: {
     type: String,
-    required:  [true, 'Payment method is required'],
+    required:  true,
     enum: ['credit_card', 'cash'],
     message: 'Payment method must be credit_card or cash',
   },
   amount: {
     type: Number,
-    required:  [true, 'Amount is required'],
+    required:  true,
     min: [0.001, 'Amount must be greater than 0'],
   },
   status: {

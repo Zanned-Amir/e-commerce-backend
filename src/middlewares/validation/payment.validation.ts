@@ -52,11 +52,7 @@ class PaymentValidation {
     ];
   }
 
-  static get() {
-    return [
-      check('id').isMongoId().withMessage('Payment ID must be a valid ID'),
-    ];
-  }
+ 
 
   static params() {
     return [

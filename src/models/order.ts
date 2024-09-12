@@ -1,5 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
-import { Product, User } from './index';
+import { Product, Inventory } from './index';
 import AppError from '../utils/app.error';
 
 export type Order = Document & {
@@ -92,37 +92,81 @@ const orderSchema = new Schema(
   }
 );
 
+const MAX_RETRIES = 5;
+
 orderSchema.pre('validate', async function (next) {
   try {
     let orderTotal = 0;
 
-    // Loop through each product in the order
+    
     for (let item of this.products) {
-      // Fetch the product from the database
+
+      let retries = 0;
+      let success = false;
+     
       const product = await Product.findById(item.product);
       if (!product) {
         return next(new AppError(`Product with id ${item.product} does not exist`, 404));
       }
 
-      // Get the product discount if it exists
+      while (!success && retries < MAX_RETRIES) {
+        // Fetch the inventory record and apply concurrency check
+        const inventory = await Inventory.findOne({ product: item.product }).select('quantity').exec();
+
+        if (!inventory) {
+          return next(new AppError(`Inventory for product ${item.product} not found`, 404));
+        }
+
+        // Check if enough stock is available
+        if (inventory.quantity < item.quantity) {
+          return next(new AppError(`Not enough stock for product ${item.product}`, 400));
+        }
+
+        // Adjust inventory quantity
+        inventory.quantity -= item.quantity;
+
+        // Ensure we only throw an error if inventory hits 0 or less
+        if (inventory.quantity < 0) {
+          return next(new AppError(`Product ${item.product} is out of stock`, 400));
+        }
+
+        try {
+          // Try to save the inventory, which will trigger version conflict handling
+          await inventory.save();
+          success = true; // Success if no conflict
+        } catch (err: any) {
+          // Check for version conflict
+          if (err.name === 'VersionError') {
+            retries += 1; // Retry if version conflict
+          } else {
+            return next(err); // Throw other errors
+          }
+        }
+      }
+
+      if (!success) {
+        return next(new AppError(`Failed to reserve stock for product ${item.product} after multiple attempts`, 500));
+      }
+
+
+      
       const productDiscount = product.discount?.value || 0;
       const priceAfterProductDiscount = product.price * (1 - productDiscount / 100);
 
-      // Calculate the total price for this product
       item.price = product.price;
       item.discount = productDiscount;
       item.total = priceAfterProductDiscount * item.quantity;
 
-      // Apply order discount only if the product does not have a discount
+      
       if (productDiscount === 0 && this.discount > 0) {
         item.total = item.total * (1 - this.discount / 100);
       }
 
-      // Add to the overall order total
+ 
       orderTotal += item.total;
     }
 
-    // Set the total price for the order
+   
     this.total = orderTotal;
 
     next();

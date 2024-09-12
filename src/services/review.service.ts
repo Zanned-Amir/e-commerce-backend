@@ -1,3 +1,4 @@
+import path from 'path';
 import {ReviewRepository} from '../repositories/index';
 import {ApiFeature, addPopulateFields} from "../utils/index";
 
@@ -20,17 +21,32 @@ class ReviewService {
                     }
           }
 
-          async getReviews(query: any = {}) {
+          async getReviews(query: any = {}, pop: boolean = false) {
 
                     const apiFeatures = new ApiFeature(this._reviewRepository.find(), query)
                     .filter(['page', 'sort', 'limit', 'fields'])
                     .sort()
                     .limitFields()
                     .paginate();
+                    if(pop) {
+                              apiFeatures.query = apiFeatures.query.populate(
+                                      [
+                                        {
+                                                  "path": "product",
+                                                  "select": "name"
+                                        }
+                                        ,
+                                        {
+                                                  "path": "user",
+                                                  "select": "name"
+                                        }
+                                      ]
+                              );
+
+                     }
+
                     return await apiFeatures.query.exec();
-                              
-                   
-          }
+                    }         
 
           async getReviewById(id: string ,populated: boolean = false, fields: any[] = []) {
 

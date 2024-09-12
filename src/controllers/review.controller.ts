@@ -15,8 +15,18 @@ class ReviewController  {
 
           getAllReviews = catchAsync(async (req: Request, res: Response) => {
                               
-                              const query = req.query;
-                              const reviews = await this._reviewService.getReviews(query);
+                              
+                              const pop = req.query.pop || false;
+                              const query = delete req.query.pop;
+                              let reviews ;
+                        
+                              if(pop) {
+                               reviews = await this._reviewService.getReviews(query ,true);
+                              }
+                              else {
+                               reviews = await this._reviewService.getReviews(query);
+                              }
+                         
           
                               res.status(200).json({
                                         status: 'success',
@@ -36,7 +46,15 @@ class ReviewController  {
 
           getReview = catchAsync(async (req: Request, res: Response) => {
                               const id: string = req.params.id;
-                              const review = await this._reviewService.getReviewById(id);
+
+                              const pop = req.query.pop || false;
+                              let review ;
+                              if(pop) {
+                               review = await this._reviewService.getReviewById(id, true, [['product', 'name'],['user', 'name']]);
+                              }
+                              else {
+                               review = await this._reviewService.getReviewById(id);
+                              }
           
                               if (!review) {
                                         throw new AppError('Review not found', 404);

@@ -6,6 +6,7 @@ import ProductController from './product.controller';
 import ProviderController from './provider.controller';
 import ReviewController from './review.controller';
 import UserController from './user.controller';
+import AuthController from './auth.controller';
 
 export {
   OrderController,
@@ -16,4 +17,5 @@ export {
   ProviderController,
   ReviewController,
   UserController,
+  AuthController
 };

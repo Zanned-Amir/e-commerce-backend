@@ -50,6 +50,14 @@ class UserService {
           async countUsers() {
                     return await this._userRepository.count();
           }
+
+          async getUserByEmail(email: string) {
+                    return await this._userRepository.findOne({ email });
+          }
+
+          async getUserPasswordByEmail(email: string) {
+                    return await this._userRepository.getUserPasswordByEmail(email);
+          }
         
 }
  

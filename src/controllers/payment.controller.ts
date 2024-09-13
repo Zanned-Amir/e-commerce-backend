@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response ,NextFunction} from 'express';
 import  catchAsync  from '../utils/catch.async';
 import { PaymentService } from '../services/index';
 import AppError from '../utils/app.error';
@@ -11,7 +11,7 @@ class PaymentController {
                     this._paymentService = new PaymentService();
                     }
 
-          getAllPayments = catchAsync(async (req: Request, res: Response) => {
+          getAllPayments = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               
                               const query = req.query;
                               const payments = await this._paymentService.getPayments(query);
@@ -22,7 +22,7 @@ class PaymentController {
                               });
                     });
 
-          createPayment = catchAsync(async (req: Request, res: Response) => {
+          createPayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const body = req.body;
                               const newPayment = await this._paymentService.createPayment(body);
           
@@ -32,7 +32,7 @@ class PaymentController {
                               });
                     });
 
-          getPayment = catchAsync(async (req: Request, res: Response) => {
+          getPayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const payment = await this._paymentService.getPaymentById(id);
           
@@ -46,7 +46,7 @@ class PaymentController {
                               });
                     });
 
-          updatePayment = catchAsync(async (req: Request, res: Response) => {
+          updatePayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const body = req.body;
                               const updatedPayment = await this._paymentService.updatePayment(id, body);
@@ -57,7 +57,7 @@ class PaymentController {
                               });
                     });
 
-          updatePaymentStatus = catchAsync(async (req: Request, res: Response) => {
+          updatePaymentStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const status: string = req.body.status;
                             
@@ -69,7 +69,7 @@ class PaymentController {
                               });
                     });
 
-          deletePayment = catchAsync(async (req: Request, res: Response) => {
+          deletePayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const deletedPayment = await this._paymentService.deletePayment(id);
           

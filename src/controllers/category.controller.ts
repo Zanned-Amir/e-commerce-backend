@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response , NextFunction } from 'express';
 import AppError from '../utils/app.error';
 import catchAsync from '../utils/catch.async';
 import { CategoryService} from '../services/index';  
@@ -12,7 +12,7 @@ class CategoryController {
           this._categoryService = new CategoryService();
           }
           
-          getAllCategories = catchAsync(async (req: Request, res: Response) => {
+          getAllCategories = catchAsync(async (req: Request, res: Response , next: NextFunction) => {
                     const query = req.query;
                     const categories = await this._categoryService.getCategories(query);
           
@@ -22,7 +22,7 @@ class CategoryController {
           });
           });
           
-          createCategory = catchAsync(async (req: Request, res: Response) => {
+          createCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const body = req.body;
           const newCategory = await this._categoryService.createCategory(body);
           
@@ -32,7 +32,7 @@ class CategoryController {
           });
           });
           
-          getCategory = catchAsync(async (req: Request, res: Response) => {
+          getCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const id: string = req.params.id;
           const category = await this._categoryService.getCategoryById(id);
           
@@ -46,7 +46,7 @@ class CategoryController {
           });
           });
           
-          updateCategory = catchAsync(async (req: Request, res: Response) => {
+          updateCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const id: string = req.params.id;
           const body = req.body;
           const updatedCategory = await this._categoryService.updateCategory(id, body);
@@ -57,7 +57,7 @@ class CategoryController {
           });
           });
 
-          deleteCategory = catchAsync(async (req: Request, res: Response) => {
+          deleteCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const id: string = req.params.id;
           await this._categoryService.deleteCategory(id);
           res.status(204).json({
@@ -66,7 +66,7 @@ class CategoryController {
           });
           });
 
-          countCategories = catchAsync(async (req: Request, res: Response) => {
+          countCategories = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const count = await this._categoryService.countCategories();
           res.status(200).json({
           status: 'success',
@@ -74,7 +74,7 @@ class CategoryController {
           });
           });
 
-          deactivateCategory = catchAsync(async (req: Request, res: Response) => {
+          deactivateCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const id: string = req.params.id;
           await this._categoryService.deactivateCategory(id);
           res.status(204).json({
@@ -83,7 +83,7 @@ class CategoryController {
           });
           });
 
-          activateCategory = catchAsync(async (req: Request, res: Response) => {
+          activateCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const id: string = req.params.id;
           await this._categoryService.activateCategory(id);
           res.status(204).json({
@@ -94,7 +94,7 @@ class CategoryController {
 
 
 
-          countFiltredCategories = catchAsync(async (req: Request, res: Response) => {
+          countFiltredCategories = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
           const query = req.query;
           const count = await this._categoryService.countFilteredCategories(query);

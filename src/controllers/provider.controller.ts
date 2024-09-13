@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response , NextFunction} from 'express';
 import AppError from '../utils/app.error';
 import catchAsync from '../utils/catch.async';
 import { ProviderService} from '../services/index'; 
@@ -11,7 +11,7 @@ class  ProviderController {
                     this._providerService = new ProviderService();
                     }
 
-          getAllProviders = catchAsync(async (req: Request, res: Response) => {
+          getAllProviders = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               
                     const query = req.query;
                     const providers = await this._providerService.getProviders(query);
@@ -22,7 +22,7 @@ class  ProviderController {
                               });
                     });
 
-          createProvider = catchAsync(async (req: Request, res: Response) => {
+          createProvider = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const body = req.body;
                               const newProvider = await this._providerService.createProvider(body);
           
@@ -32,7 +32,7 @@ class  ProviderController {
                               });
                     });
 
-          getProvider = catchAsync(async (req: Request, res: Response) => {
+          getProvider = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const id: string = req.params.id;
                               const provider = await this._providerService.getProviderById(id);
           
@@ -46,7 +46,7 @@ class  ProviderController {
                               });
                     });
 
-          updateProvider = catchAsync(async (req: Request, res: Response) => {
+          updateProvider = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const id: string = req.params.id;
                               const body = req.body;
                               const updatedProvider = await this._providerService.updateProvider(id, body);
@@ -57,7 +57,7 @@ class  ProviderController {
                               });
                     });
 
-          deleteProvider = catchAsync(async (req: Request, res: Response) => {
+          deleteProvider = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const id: string = req.params.id;
                               await this._providerService.deleteProvider(id);
           
@@ -67,7 +67,7 @@ class  ProviderController {
                               });
                     });
 
-          countProviders = catchAsync(async (req: Request, res: Response) => {
+          countProviders = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const count = await this._providerService.countProviders();
                               res.status(200).json({
                               status: 'success',

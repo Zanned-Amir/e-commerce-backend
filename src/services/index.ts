@@ -6,6 +6,7 @@ import UserService from "./user.service";
 import ReviewService from "./review.service";
 import ProviderService from "./provider.service";
 import CategoryService from "./category.service";
+import AuthService from "./auth.service";
 
 export {
           InventoryService,
@@ -15,5 +16,6 @@ export {
           UserService,
           ReviewService,
           ProviderService,
-          CategoryService
+          CategoryService,
+          AuthService
 }

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import  catchAsync  from '../utils/catch.async';
 import { OrderService } from '../services/index';
 import AppError from '../utils/app.error';
@@ -12,7 +12,7 @@ class OrderController {
                     this._orderService = new OrderService();
                     }
 
-          getAllOrders = catchAsync(async (req: Request, res: Response) => {
+          getAllOrders = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               
                     const query = req.query;
                     const orders = await this._orderService.getOrders(query);
@@ -23,7 +23,7 @@ class OrderController {
                               });
                     });
 
-          createOrder = catchAsync(async (req: Request, res: Response) => {
+          createOrder = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const body = req.body;
                               const newOrder = await this._orderService.createOrder(body);
           
@@ -33,7 +33,7 @@ class OrderController {
                               });
                     });
 
-          getOrder = catchAsync(async (req: Request, res: Response) => {
+          getOrder = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               let order ;
 
@@ -56,7 +56,7 @@ class OrderController {
                               });
                     });
 
-          updateOrder = catchAsync(async (req: Request, res: Response) => {
+          updateOrder = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const body = req.body;
                               const updatedOrder = await this._orderService.updateOrder(id, body);
@@ -67,7 +67,7 @@ class OrderController {
                               });
                     });
 
-          updateOrderStatus = catchAsync(async (req: Request, res: Response) => {
+          updateOrderStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                     
                               const statusList = ['pending', 'completed', 'cancelled'];
                               const id: string = req.params.id;
@@ -84,7 +84,7 @@ class OrderController {
                               });
                     });
 
-          deleteOrder = catchAsync(async (req: Request, res: Response) => {
+          deleteOrder = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               await this._orderService.deleteOrder(id);
           
@@ -94,7 +94,7 @@ class OrderController {
                               });
                     });
 
-          countOrders = catchAsync(async (req: Request, res: Response) => {
+          countOrders = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const count = await this._orderService.countOrders();
                               res.status(200).json({
                               status: 'success',

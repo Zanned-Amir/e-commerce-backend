@@ -6,6 +6,7 @@ import reviewRouter from './review.routes';
 import inventoryRouter from './inventory.routes';
 import providerRouter from './provider.routes';
 import categoryRouter from './category.routes';
+import authRouter from './auth.routes';
 
 import { Router } from 'express';
 
@@ -20,6 +21,7 @@ router.use('/reviews', reviewRouter);
 router.use('/inventories', inventoryRouter);
 router.use('/providers', providerRouter);
 router.use('/categories', categoryRouter);
+router.use('/auth', authRouter);
 
 
 

@@ -1,12 +1,17 @@
-import  { Router } from 'express';
+import { Router } from 'express';
 import { UserController } from '../controllers/index';
-
-import {UserValidation} from '../middlewares/index';
+import { UserValidation } from '../middlewares/index';
 import { handleValidation } from '../middlewares/index';
-
+import { Authenticated } from '../middlewares/index';
 
 const router = Router();
 const userController = new UserController();
+const authenticated = new Authenticated();
+
+router.route('/count').get(userController.countUsers);
+
+router.route('/current')
+  .get(authenticated.protect, userController.getCurrentUser);
 
 router.route('/')
   .get(UserValidation.query(), handleValidation, userController.getAllUsers)

@@ -3,6 +3,7 @@ import ApiFeature from "./api.feature";
 import catchAsync from "./catch.async";
 import Hash from "./hashing";
 import AppError from "./app.error";
+import JWTUtils from "./jwt.util";
 
 
 
@@ -11,6 +12,7 @@ export {
           ApiFeature,
           catchAsync,
           Hash,
-          AppError 
+          AppError ,
+          JWTUtils
 
 };

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response ,NextFunction} from 'express';
 import  catchAsync  from '../utils/catch.async';
 import { ProductService } from '../services/index';
 import AppError from '../utils/app.error';
@@ -12,7 +12,7 @@ class ProductController {
                     this._productService = new ProductService();
                     }
 
-          getAllProducts = catchAsync(async (req: Request, res: Response) => {
+          getAllProducts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               
                               const query = req.query;
                               const products = await this._productService.getProducts(query);
@@ -23,7 +23,7 @@ class ProductController {
                               });
                     });
 
-          createProduct = catchAsync(async (req: Request, res: Response) => {
+          createProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const body = req.body;
                               const newProduct = await this._productService.createProduct(body);
           
@@ -33,7 +33,7 @@ class ProductController {
                               });
                     });
 
-          getProduct = catchAsync(async (req: Request, res: Response) => {
+          getProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const product = await this._productService.getProductById(id);
           
@@ -47,7 +47,7 @@ class ProductController {
                               });
                     });
 
-          updateProduct = catchAsync(async (req: Request, res: Response) => {
+          updateProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const body = req.body;
                               const updatedProduct = await this._productService.updateProduct(id, body);
@@ -58,7 +58,7 @@ class ProductController {
                               });
                     });
 
-          deactivateProduct = catchAsync(async (req: Request, res: Response) => {
+          deactivateProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const deactivatedProduct = await this._productService.deactivateProduct(id);
           
@@ -68,7 +68,7 @@ class ProductController {
                               });
                     });
 
-          activateProduct = catchAsync(async (req: Request, res: Response) => {
+          activateProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               const activatedProduct = await this._productService.activateProduct(id);
           
@@ -78,7 +78,7 @@ class ProductController {
                               });
                     });
 
-          deleteProduct = catchAsync(async (req: Request, res: Response) => {
+          deleteProduct = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
                               await this._productService.deleteProduct(id);
           
@@ -88,7 +88,7 @@ class ProductController {
                               });
                     });
 
-          countProducts = catchAsync(async (req: Request, res: Response) => {
+          countProducts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const count = await this._productService.countProducts();
                               res.status(200).json({
                               status: 'success',

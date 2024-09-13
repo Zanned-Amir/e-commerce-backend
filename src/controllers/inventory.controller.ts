@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response ,NextFunction } from 'express';
 import AppError from '../utils/app.error';
 import catchAsync from '../utils/catch.async';
 import { InventoryService} from '../services/index';  
@@ -12,7 +12,7 @@ class InventoryController {
     this._inventoryService = new InventoryService();
   }
 
-  getAllInventory = catchAsync(async (req: Request, res: Response) => {
+  getAllInventory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const pop = req.query.pop || false;
     const query = delete req.query.pop;
 
@@ -32,7 +32,7 @@ class InventoryController {
     });
   });
 
-  createInventory = catchAsync(async (req: Request, res: Response) => {
+  createInventory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const body = req.body;
     const newInventory = await this._inventoryService.createInventory(body);
 
@@ -42,7 +42,7 @@ class InventoryController {
     });
   });
 
-  getInventory = catchAsync(async (req: Request, res: Response) => {
+  getInventory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const id: string = req.params.id;
     const pop = req.query.pop || false;
     let  inventory;
@@ -63,7 +63,7 @@ class InventoryController {
     });
   });
 
-  updateInventory = catchAsync(async (req: Request, res: Response) => {
+  updateInventory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const id: string = req.params.id;
     const body = req.body;
     const updatedInventory = await this._inventoryService.updateInventory(id, body);
@@ -75,7 +75,7 @@ class InventoryController {
   });
 
 
-  deleteInventory = catchAsync(async (req: Request, res: Response) => {
+  deleteInventory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const id: string = req.params.id;
     await this._inventoryService.deleteInventory(id);
 
@@ -85,7 +85,7 @@ class InventoryController {
     });
   });
 
-  countInventories = catchAsync(async (req: Request, res: Response) => {
+  countInventories = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const count = await this._inventoryService.countInventories();
 
     res.status(200).json({

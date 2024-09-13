@@ -8,6 +8,7 @@ import ReviewValidation from "./validation/review.validation";
 import InventoryValidation from "./validation/inventory.validation";
 import ProviderValidation from "./validation/provider.validation";
 import CategoryValidation from "./validation/category.validation";
+import Authenticated from "./authenticated";
 
 
 export {
@@ -20,6 +21,8 @@ export {
     ReviewValidation,
     InventoryValidation,
     ProviderValidation,
-    CategoryValidation
+    CategoryValidation,
+    Authenticated
+
     
 }

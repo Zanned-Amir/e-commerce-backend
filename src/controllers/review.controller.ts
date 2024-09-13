@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response ,NextFunction } from 'express';
 import  catchAsync  from '../utils/catch.async';
 import { ReviewService} from '../services/index';
 import AppError from '../utils/app.error';
@@ -13,7 +13,7 @@ class ReviewController  {
                     this._reviewService = new ReviewService();
                     }
 
-          getAllReviews = catchAsync(async (req: Request, res: Response) => {
+          getAllReviews = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               
                               
                               const pop = req.query.pop || false;
@@ -34,7 +34,7 @@ class ReviewController  {
                               });
                     });
 
-          createReview = catchAsync(async (req: Request, res: Response) => {
+          createReview = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const body = req.body;
                               const newReview = await this._reviewService.createReview(body);
           
@@ -44,7 +44,7 @@ class ReviewController  {
                               });
                     });
 
-          getReview = catchAsync(async (req: Request, res: Response) => {
+          getReview = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const id: string = req.params.id;
 
                               const pop = req.query.pop || false;
@@ -66,7 +66,7 @@ class ReviewController  {
                               });
                     });
 
-          updateReview = catchAsync(async (req: Request, res: Response) => {
+          updateReview = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const id: string = req.params.id;
                               const body = req.body;
                               const updatedReview = await this._reviewService.updateReview(id, body);
@@ -77,7 +77,7 @@ class ReviewController  {
                               });
                     });
 
-          hideReview = catchAsync(async (req: Request, res: Response) => {
+          hideReview = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
 
                               const id: string = req.params.id;
                               const updatedReview = await this._reviewService.hideReview(id);
@@ -88,7 +88,7 @@ class ReviewController  {
                               });
                     });
 
-          showReview = catchAsync(async (req: Request, res: Response) => {
+          showReview = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const id: string = req.params.id;
                               const updatedReview = await this._reviewService.showReview(id);
           
@@ -98,7 +98,7 @@ class ReviewController  {
                               });
                     });
 
-          deleteReview = catchAsync(async (req: Request, res: Response) => {
+          deleteReview = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const id: string = req.params.id;
                               await this._reviewService.deleteReview(id);
           
@@ -108,7 +108,7 @@ class ReviewController  {
                               });
                     });
 
-                    countReviews = catchAsync(async (req: Request, res: Response) => {
+                    countReviews = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
                               const count = await this._reviewService.countReviews();
           
                               res.status(200).json({

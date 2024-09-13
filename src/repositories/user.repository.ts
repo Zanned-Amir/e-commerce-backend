@@ -20,6 +20,11 @@ class UserRepository extends BaseRepository {
         });
     }
 
+    async getUserPasswordByEmail(email: string) {
+        return await User.findOne({ email }).select('+password');
+    }
+
+
 
 }
 

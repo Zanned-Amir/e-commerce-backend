@@ -127,8 +127,30 @@ import { user } from '../types/user';
                 });
               });
 
+              getCurrentUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+               
+                const userId = (req as Request & { user: { id: string } }).user?.id;
+                
+                if (!userId) {
+                  return next(new AppError('User ID not found', 400));
+                }
+            
+                const user = await this._userService.getUserById(userId);
+                if (!user) {
+                  return next(new AppError('User not found', 404));
+                }
+            
+                res.status(200).json({
+                  status: 'success',
+                  data: user,
+                });
+              });
+            
+            }
+            
+
           
 
-}
+
 
 export default UserController;

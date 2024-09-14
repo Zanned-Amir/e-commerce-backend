@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { JWTUtils, AppError } from '../utils/index';
+import {catchAsync} from '../utils/index';
 
 class Authenticated {
-  async protect(req: Request, res: Response, next: NextFunction) {
+   protect = catchAsync(async (req: Request, res: Response, next: NextFunction) =>{
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     }
+   
 
     if (!token) {
       return next(new AppError('You are not logged in! Please log in to get access.', 401));
@@ -20,7 +22,9 @@ class Authenticated {
     } catch (err) {
       return next(new AppError('Invalid token or token expired', 401));
     }
-  }
+  });
+
+
 }
 
 export default Authenticated;

@@ -19,28 +19,29 @@ class AuthService {
           }
 
           async login(body: any) {
-                    const user = await this._userService.getUserPasswordByEmail(body.email);
-                  
-                    if (!user) {
-                      throw new AppError('Invalid credentials', 401);
-                    } 
-                   
-                    if (!body.password || !user.password) {
-                      throw new AppError('Password is missing', 400);
-                    }
-                  
-                    const isMatch = await Hash.comparePassword(body.password, user.password);
-                    if (!isMatch) {
-                      throw new AppError('Invalid credentials', 401);
-                    }
-                  
-                    const token = JWTUtils.sign({ id: user.id });
-                    const refreshToken = JWTUtils.signRefreshToken({ id: user.id });
-                  
-                    return { user, token, refreshToken };
-                  }
-         
-
+            let user = await this._userService.getUserPasswordByEmail(body.email);
+          
+            if (!user) {
+              throw new AppError('Invalid credentials', 401);
+            } 
+        
+            if (!body.password || !user.password) {
+              throw new AppError('Password is missing', 400);
+            }
+        
+            const isMatch = await Hash.comparePassword(body.password, user.password);
+            if (!isMatch) {
+              throw new AppError('Invalid credentials', 401);
+            }
+        
+            
+            
+        
+            const token = JWTUtils.sign({ id: user.id });
+            const refreshToken = JWTUtils.signRefreshToken({ id: user.id });
+        
+            return { user, token, refreshToken };
+          }
  
   
 

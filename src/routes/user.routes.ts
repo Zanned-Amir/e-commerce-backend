@@ -3,12 +3,13 @@ import { UserController } from '../controllers/index';
 import { UserValidation } from '../middlewares/index';
 import { handleValidation } from '../middlewares/index';
 import { Authenticated } from '../middlewares/index';
+import authorize from '../middlewares/authorize';
 
 const router = Router();
 const userController = new UserController();
 const authenticated = new Authenticated();
 
-router.route('/count').get(userController.countUsers);
+router.route('/count').get(authenticated.protect, authorize('admin'), userController.countUsers);
 
 router.route('/current')
   .get(authenticated.protect, userController.getCurrentUser);

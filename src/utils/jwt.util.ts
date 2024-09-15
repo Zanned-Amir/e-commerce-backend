@@ -31,7 +31,7 @@ class JWTUtils {
   public signRefreshToken(payload: object, options: SignOptions = {}): any {
     return jwt.sign(payload, this.privateKey, {
       algorithm: this.algorithm, 
-      expiresIn: '7d',
+      expiresIn: '30d',
       ...options,
     });
   }

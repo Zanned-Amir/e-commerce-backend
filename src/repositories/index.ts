@@ -6,6 +6,9 @@ import UserRepository from './user.repository';
 import ReviewRepository from './review.repository';
 import ProviderRepository from './provider.repository';
 import CategoryRepository from './category.repository';
+import UserRefreshTokenRepository from './user.refresh.token.repository';
+import UserInvalidTokenRepository from './user.invalid.token.repository';
+
 
 export {
     InventoryRepository,
@@ -15,5 +18,7 @@ export {
     UserRepository,
     ReviewRepository,
     ProviderRepository,
-    CategoryRepository
+    CategoryRepository,
+    UserRefreshTokenRepository,
+    UserInvalidTokenRepository
 };

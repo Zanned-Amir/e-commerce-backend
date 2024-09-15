@@ -32,6 +32,9 @@ abstract class BaseRepository {
                 async count() {
                     return await this.model.countDocuments();
                 }
+                async deleteMany(conditions: any) {
+                    return await this.model.deleteMany(conditions);
+                }
 
                 async createWithPopulate(data: any, populateFields: any[]) {
                     const createdDocument = await this.model.create(data);

@@ -6,6 +6,8 @@ import User from "./user";
 import Inventory from "./inventory";
 import Category from "./category";
 import Provider from "./provider";
+import UserRefreshToken from "./user.refresh.token";
+import UserInvalidToken from "./user.invalid.token";
 export {
     Order,
     Product,
@@ -14,5 +16,7 @@ export {
     User,
     Inventory,
     Category,
-    Provider
+    Provider,
+    UserRefreshToken,
+    UserInvalidToken
 };

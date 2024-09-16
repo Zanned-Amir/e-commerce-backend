@@ -93,6 +93,13 @@ const userSchema = new Schema({
     },
   }
   ],
+  '2fa_enable':{
+    type: Boolean,
+    default: false
+  },
+  '2fa_secret':{
+    type: String,
+  },
  
   password_changed_at:  Date,
 },

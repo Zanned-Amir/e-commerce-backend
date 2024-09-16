@@ -4,6 +4,7 @@ import catchAsync from "./catch.async";
 import Hash from "./hashing";
 import AppError from "./app.error";
 import JWTUtils from "./jwt.util";
+import TokenHelper from "./token.helper";
 
 
 
@@ -13,6 +14,8 @@ export {
           catchAsync,
           Hash,
           AppError ,
-          JWTUtils
+          JWTUtils,
+          TokenHelper
+          
 
 };

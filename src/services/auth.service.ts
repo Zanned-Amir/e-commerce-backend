@@ -1,8 +1,10 @@
 import { UserService} from './index';
-import  JWTUtils from '../utils/jwt.util';
+import  {JWTUtils , TokenHelper} from '../utils/index';
 import {Hash , AppError} from '../utils/index';
 import { UserRefreshTokenRepository , UserInvalidTokenRepository} from '../repositories/index';
+import { authenticator } from 'otplib';
 import jwt from 'jsonwebtoken';
+import qrcode from 'qrcode';
 
 class AuthService {
           private _userService: UserService;
@@ -82,15 +84,15 @@ class AuthService {
                 throw new AppError('Refresh token is missing', 400);
               }
           
-              // Check if the refresh token exists in the database
+              
               const validRefreshToken = await this._userRefreshToken.findByToken(refreshToken);
           
               if (!validRefreshToken || new Date(validRefreshToken.expires) < new Date()) {
-                // If the token does not exist or is expired
+             
                 throw new AppError('Invalid or expired refresh token', 401);
               }
           
-              // Verify the refresh token
+       
               const decoded = JWTUtils.verify(refreshToken);
           
               const user = await this._userService.getUserById(decoded.id);
@@ -99,14 +101,14 @@ class AuthService {
                 throw new AppError('User not found', 404);
               }
           
-              // Delete the old refresh token
+          
               await this._userRefreshToken.deleteByUserIdAndToken(user.id, refreshToken);
           
-              // Generate new access and refresh tokens
+            
               const newToken = JWTUtils.sign({ id: user.id });
               const newRefreshToken = JWTUtils.signRefreshToken({ id: user.id });
           
-              // Save the new refresh token in the database
+           
               await this._userRefreshToken.create({
                 user: user.id,
                 refresh_token: newRefreshToken,
@@ -154,11 +156,6 @@ class AuthService {
 
           async logoutAllDevices(req: any) {
 
-         
-
-         
-
-
             const token = req.acessToken.value;
             const decoded =  JWTUtils.verify(token);
 
@@ -174,6 +171,45 @@ class AuthService {
             });
 
           }
+
+          async enableTwoFactorAuth(id: string) {
+            return this._userService.updateUser(id, { two_factor_enabled: true });
+          }
+
+          async disableTwoFactorAuth(id: string) {
+            return this._userService.updateUser(id, { two_factor_enabled: false });
+          }
+
+          async generate2fa(id: string) {
+            const user = await this._userService.getUserById(id);
+            if(!user) {
+                    throw  new AppError('User not found', 404)
+            }
+
+            if(!user['2fa_enable']) {
+                throw new AppError('must enable 2FA first', 400)
+            }                            
+            const secret = authenticator.generateSecret();
+            const uri = authenticator.keyuri(user.email, 'e-commerce', secret);
+
+            await this._userService.updateUser(id, { '2fa_secret': secret });
+
+            const qr_code = await qrcode.toBuffer(uri, { type: 'png', margin: 1 });
+
+            return { qr_code, secret };
+
+          }
+
+
+        
+
+
+
+
+
+          
+
+             
 
 
  

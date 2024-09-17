@@ -22,4 +22,11 @@ router.route('/2fa/validate').post(authenticated.protect, authController.validat
 router.route('/2fa/disable').post(authenticated.protect, authController.disable2fa);
 router.route('/2fa/enable').post(authenticated.protect, authController.enable2fa);
 
+
+router.route('/reset-password').post(authController.resetPassword);
+router.route('/change-password/:token').post(authController.changePassword);
+router.route('/verify-email').post(authController.generateVerificationEmail);
+router.route('/verify-email/:token/:id').patch(authController.verifyEmail);
+
+
 export default router;

@@ -23,19 +23,21 @@ class JWTUtils {
     }
   }
 
-  public sign(payload: object, options: SignOptions = {}): any {
+  public sign(payload: object, options: SignOptions = {
+    expiresIn: this.expiresIn,}): any {
     return jwt.sign(payload, this.privateKey, {
       algorithm: this.algorithm,
-      expiresIn: this.expiresIn,
       ...options,
     });
   }
 
-  public signRefreshToken(payload: object, options: SignOptions = {}): any {
+  public signRefreshToken(payload: object, options: SignOptions = { 
+     expiresIn: this.expiresInRefreshToken,
+    }): any {
     return jwt.sign(payload, this.privateKey, {
-      algorithm: this.algorithm, 
-      expiresIn: this.expiresInRefreshToken,
+      algorithm: this.algorithm,
       ...options,
+
     });
   }
 

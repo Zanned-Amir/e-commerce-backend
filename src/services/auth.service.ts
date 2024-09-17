@@ -1,10 +1,13 @@
 import { UserService} from './index';
 import  {JWTUtils , TokenHelper} from '../utils/index';
-import {Hash , AppError} from '../utils/index';
+import {Hash , AppError ,Email} from '../utils/index';
 import { UserRefreshTokenRepository , UserInvalidTokenRepository} from '../repositories/index';
 import { authenticator } from 'otplib';
 import jwt from 'jsonwebtoken';
 import qrcode from 'qrcode';
+import jwtUtil from 'utils/jwt.util';
+import email from 'utils/email';
+
 
 class AuthService {
           private _userService: UserService;
@@ -200,6 +203,103 @@ class AuthService {
 
           }
 
+          async resetPassword(email: string) {
+            const user = await this._userService.getUserByEmail(email);
+            if (!user) {
+              throw new AppError('User not found', 404);
+            }
+        
+            const token =await  TokenHelper.generateToken({  });
+
+
+            await this._userService.updateUser(user.id, { reset_password_token: token });
+         
+            Email.sendResetPasswordEmail(user.email, 
+              { userName: user.username,  
+                resetUrl: `${process.env.FRONTEND_URL}api/v1/auth/reset-password/${token}` }); 
+          
+           return true;
+
+          }
+
+          async changePassword( token: string, password: string) {
+
+            const decode =  jwt.decode(token);
+            if( (decode as any).exp < Date.now() / 1000) {
+              throw new AppError('Token expired', 400);
+            }
+            
+            const user = await this._userService.getUserByResetPasswordToken(token);
+            console.log('Retrieved User:', user);
+            if (!user) {
+              throw new AppError('User not found', 404);
+            }
+
+        
+            if (user.reset_password_token !== token) {
+              throw new AppError('Invalid reset token', 400);
+            }
+
+            await this._userService.updateUser(user.id, { password , reset_password_token: null });
+
+          }
+
+          async generateVerifcationToken(email: string) {
+            const user = await this._userService.getUserPasswordByEmail(email);
+            if (!user) {
+              throw new AppError('User not found', 404);
+            }
+        
+            const token =await TokenHelper.generateToken({});
+        
+            await this._userService.updateUser(user.id, { verification_token: token });
+
+            Email.sendVerifyEmail(user.email,{
+              userName: user.username,  
+              verificationUrl: `${process.env.FRONTEND_URL}api/v1/auth/verify-email/${token}/${user.id}` });
+            
+        
+            
+          }
+
+          async verifyEmail(id: string , token: string) {
+
+            console.log('Token:', token);
+
+            const decode =  jwt.decode(token);
+
+            console.log('Decoded:', decode);
+            if( (decode as any).exp < Date.now() / 1000) {
+              throw new AppError('Token expired', 400);
+            }
+
+            const user = await this._userService.getUserById(id);
+
+         
+
+            if (!user) {
+              throw new AppError('User not found', 404);
+            }
+
+            if(user.status === 'active') {
+              throw new AppError('User already verified', 400);
+            }
+            if(user.status === 'banned') {
+              throw new AppError('User is banned', 400);
+            }
+
+            if (user.verification_token !== token) {
+              throw new AppError('Invalid verification token', 400);
+            }
+
+
+
+        
+            await this._userService.updateUser(user.id, { status: 'active', verification_token: null });
+          }
+           
+
+          
 
         
 

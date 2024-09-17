@@ -23,6 +23,13 @@ class TokenHelper {
     const ttlInMs = ms(ttl);  
     return new Date(now + ttlInMs);  
   }
+
+  async generateToken(payload: any , options: any = {
+    expiresIn: "10m", 
+  }) {
+    return jwtUtil.sign(payload, options);
+  }
+
 }
 
 export default new TokenHelper();

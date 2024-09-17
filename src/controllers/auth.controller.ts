@@ -246,9 +246,6 @@ class  AuthController {
                                         }
                               }
                     });
-
-
-                  
           });
 
           enable2fa = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -272,6 +269,84 @@ class  AuthController {
                               message: '2FA has been disabled'
                     });
           });
+
+
+          resetPassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
+                    const {email} = req.body;
+
+                    if(!email) {
+                              return next(new AppError('Please provide an email', 400));
+                    }
+
+                    await this.authService.resetPassword(email);
+
+                    res.status(200).json({
+                              status: 'success',
+                              message: 'Password reset email has been sent'
+                    });
+          });
+
+       
+            
+
+        changePassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
+                  const { password} = req.body;
+                  const token = req.params.token;
+
+                  if(!token || !password) {
+                            return next(new AppError('Please fill in all fields', 400));
+                  }
+
+
+
+                  await this.authService.changePassword( token, password);
+
+                  res.status(200).json({
+                            status: 'success',
+                            message: 'Password has been reset'
+                  });
+                });
+
+          verifyEmail = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
+                    const {token , id} = req.params;
+
+                    if(!id || !token) {
+                              return next(new AppError('Please provide id and token', 400));
+                    }
+                    console.log(id, token);
+
+                    await this.authService.verifyEmail(id, token);
+
+                    res.status(200).json({
+                              status: 'success',
+                              message: 'Email has been verified'
+                    });
+          });
+
+          generateVerificationEmail= catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+
+                    const {email} = req.body;
+
+                    if(!email) {
+                              return next(new AppError('Please provide an email', 400));
+                    }
+
+                    await this.authService.generateVerifcationToken(email);
+
+                    res.status(200).json({
+                              status: 'success',
+                              message: 'Verification email has been sent'
+                    });
+          });
+
+
+
+
+
+
           
 
 

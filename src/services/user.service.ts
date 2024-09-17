@@ -58,6 +58,16 @@ class UserService {
           async getUserPasswordByEmail(email: string) {
                     return await this._userRepository.getUserPasswordByEmail(email);
           }
+           async getUserBy(query: any) {
+                    return await this._userRepository.findOne(query);
+           }
+
+           async getUserByResetPasswordToken(reset_password_token: string) {
+                    return await this._userRepository.findOne({ reset_password_token });
+           }
+           async getUserByVerificationToken(verification_token: string) {
+                    return await this._userRepository.findOne({ verification_token });
+           }
         
 }
  

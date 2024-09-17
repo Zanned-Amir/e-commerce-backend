@@ -8,6 +8,7 @@ import ProviderService from "./provider.service";
 import CategoryService from "./category.service";
 import AuthService from "./auth.service";
 
+
 export {
           InventoryService,
           OrderService,

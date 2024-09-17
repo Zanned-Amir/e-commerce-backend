@@ -100,6 +100,12 @@ const userSchema = new Schema({
   '2fa_secret':{
     type: String,
   },
+  reset_password_token: {
+    type: String,
+  },
+  verification_token: {
+    type: String,
+  },
  
   password_changed_at:  Date,
 },

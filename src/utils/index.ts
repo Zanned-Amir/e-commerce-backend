@@ -5,6 +5,7 @@ import Hash from "./hashing";
 import AppError from "./app.error";
 import JWTUtils from "./jwt.util";
 import TokenHelper from "./token.helper";
+import Email from "./email";
 
 
 
@@ -15,7 +16,8 @@ export {
           Hash,
           AppError ,
           JWTUtils,
-          TokenHelper
+          TokenHelper,
+          Email
           
 
 };

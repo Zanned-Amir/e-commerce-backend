@@ -23,8 +23,12 @@ class CategoryController {
           });
           
           createCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-          const body = req.body;
-          const newCategory = await this._categoryService.createCategory(body);
+          const  {  name , description , status } = req.body;
+          const newCategory = await this._categoryService.createCategory({
+                    name,
+                    description,
+                    status,
+          });
           
           res.status(201).json({
           status: 'success',
@@ -48,8 +52,13 @@ class CategoryController {
           
           updateCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
           const id: string = req.params.id;
-          const body = req.body;
-          const updatedCategory = await this._categoryService.updateCategory(id, body);
+          const  {  name , description , status } = req.body;
+          const updatedCategory = await this._categoryService.updateCategory(id,
+                    { 
+                              name ,
+                              description ,
+                              status 
+                              });
           
           res.status(200).json({
           status: 'success',

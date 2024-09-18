@@ -33,8 +33,8 @@ class InventoryController {
   });
 
   createInventory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const body = req.body;
-    const newInventory = await this._inventoryService.createInventory(body);
+    const { product, label, qauntity } = req.body;
+    const newInventory = await this._inventoryService.createInventory({ product, label, qauntity });
 
     res.status(201).json({
       status: 'success',
@@ -65,8 +65,8 @@ class InventoryController {
 
   updateInventory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const id: string = req.params.id;
-    const body = req.body;
-    const updatedInventory = await this._inventoryService.updateInventory(id, body);
+    const { product, label, qauntity } = req.body;
+    const updatedInventory = await this._inventoryService.updateInventory(id, { product, label, qauntity });
 
     res.status(200).json({
       status: 'success',

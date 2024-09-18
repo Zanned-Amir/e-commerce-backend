@@ -9,17 +9,22 @@ const router = Router();
 const userController = new UserController();
 const authenticated = new Authenticated();
 
-router.route('/count').get(authenticated.protect, authorize('admin'), userController.countUsers);
+router.route('/count')
+  .get(authenticated.protect, authorize('admin'), userController.countUsers);
 
 router.route('/current')
   .get(authenticated.protect, userController.getCurrentUser);
 
 router.route('/')
-  .get(UserValidation.query(), handleValidation, userController.getAllUsers)
-  .post(UserValidation.createUser(), handleValidation, userController.createUser);
+  .get(authenticated.protect,authorize('admin'), UserValidation.query(), handleValidation, userController.getAllUsers)
+  .post(authenticated.protect, authorize('admin'), UserValidation.createUser(), handleValidation, userController.createUser);
 
 router.route('/:id')
-  .get(UserValidation.params(), handleValidation, userController.getUser)
+  .get(authenticated.protect, UserValidation.params(), handleValidation, userController.getUser);
+
+router.use(authenticated.protect, authorize('admin'));
+
+router.route('/:id')
   .patch(UserValidation.updateUser(), handleValidation, userController.updateUser)
   .delete(UserValidation.params(), handleValidation, userController.deleteUser);
 

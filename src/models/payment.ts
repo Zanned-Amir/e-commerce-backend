@@ -38,6 +38,7 @@ const paymentSchema = new Schema({
 
 },
   {
+    strict: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

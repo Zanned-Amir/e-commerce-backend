@@ -24,8 +24,19 @@ class OrderController {
                     });
 
           createOrder = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-                              const body = req.body;
-                              const newOrder = await this._orderService.createOrder(body);
+                    const   {
+                                user,
+                                address,
+                                products,
+                                total,
+                                discount,
+                              } = req.body;
+                              const newOrder = await this._orderService.createOrder({
+                                        user,
+                                        address,
+                                        products,
+                                        total,                               
+                                      });
           
                               res.status(201).json({
                                         status: 'success',
@@ -58,8 +69,24 @@ class OrderController {
 
           updateOrder = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
-                              const body = req.body;
-                              const updatedOrder = await this._orderService.updateOrder(id, body);
+                              const {
+                                        user,
+                                        address,
+                                        products,
+                                        total,
+                                        discount,
+                                        status,
+
+                                      } = req.body;
+                              const updatedOrder = await this._orderService.updateOrder(id, {
+                                        user,
+                                        address,
+                                        products,
+                                        total,
+                                        discount,
+                                        status,
+
+                                      });
           
                               res.status(200).json({
                                         status: 'success',

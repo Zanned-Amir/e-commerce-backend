@@ -23,8 +23,8 @@ class PaymentController {
                     });
 
           createPayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-                              const body = req.body;
-                              const newPayment = await this._paymentService.createPayment(body);
+                              const {order , payment_method , amount  } = req.body;
+                              const newPayment = await this._paymentService.createPayment({order , payment_method , amount  });
           
                               res.status(201).json({
                                         status: 'success',
@@ -48,8 +48,8 @@ class PaymentController {
 
           updatePayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
                               const id: string = req.params.id;
-                              const body = req.body;
-                              const updatedPayment = await this._paymentService.updatePayment(id, body);
+                              const {order , payment_method , amount ,status  } = req.body;
+                              const updatedPayment = await this._paymentService.updatePayment(id, {order , payment_method , amount ,status  });
           
                               res.status(200).json({
                                         status: 'success',

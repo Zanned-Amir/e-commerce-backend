@@ -136,6 +136,8 @@ class  AuthController {
 
           });
 
+          //
+
           validate2fa = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
                     const {totp} = req.body;
@@ -152,11 +154,11 @@ class  AuthController {
                     if(!user) {
                               return next(new AppError('User not found', 404));
                     }
-
-                    const secret = user['2fa_secret'];
-                    if (!secret) {
-                      return next(new AppError('2FA secret is missing. Please set up 2FA.', 400));
+                    if(!user['2fa_enable']) {
+                              return next(new AppError('2FA is not enabled', 400));
                     }
+
+                    
 
                     const verified = authenticator.check(totp, user['2fa_secret']);
 
@@ -169,7 +171,7 @@ class  AuthController {
 
                     res.status(200).json({
                               status: 'success',
-                              message: '2FA has been enabled'
+                              message: '2FA validation successful'
                     });
 
           });

@@ -1,29 +1,31 @@
 import {ReviewController} from '../controllers/index';
 import { Router } from 'express';
 import { handleValidation ,ReviewValidation } from '../middlewares/index';
+import { Authenticated } from '../middlewares/index';
+import authorize from '../middlewares/authorize';
 
 
 const router = Router();
 
 const reviewController = new ReviewController();
+const authenticated = new Authenticated();
 
-router.route('/count').patch(reviewController.countReviews);
+router.route('/count')
+  .get(authenticated.protect, authorize('admin'), reviewController.countReviews);
 
-router.route('/').get( ReviewValidation.query(), handleValidation, reviewController.getAllReviews);
+router.route('/')
+  .get(authenticated.protect, ReviewValidation.query(), handleValidation, reviewController.getAllReviews)
+  .post(authenticated.protect, ReviewValidation.createReview(), handleValidation, reviewController.createReview);
 
-router.route('/').post(ReviewValidation.createReview(), handleValidation, reviewController.createReview);
+router.route('/:id')
+  .get(authenticated.protect, ReviewValidation.params(), handleValidation, reviewController.getReview)
+  .patch(authenticated.protect, authorize('admin'), ReviewValidation.updateReview(), handleValidation, reviewController.updateReview)
+  .delete(authenticated.protect, authorize('admin'), ReviewValidation.params(), handleValidation, reviewController.deleteReview);
 
-router.route('/:id').get(ReviewValidation.params(), handleValidation, reviewController.getReview);
+router.route('/:id/hide')
+  .patch(authenticated.protect, authorize('admin'), ReviewValidation.params(), handleValidation, reviewController.hideReview);
 
-router.route('/:id').patch( ReviewValidation.updateReview(), handleValidation, reviewController.updateReview);
-
-router.route('/:id').delete(ReviewValidation.params(), handleValidation, reviewController.deleteReview);
-
-router.route('/:id/hide').patch(ReviewValidation.params(), handleValidation,reviewController.hideReview);
-
-router.route('/:id/show').patch(ReviewValidation.params(), handleValidation,reviewController.showReview);
-
-
+router.route('/:id/show')
+  .patch(authenticated.protect, authorize('admin'), ReviewValidation.params(), handleValidation, reviewController.showReview);
 
 export default router;
-

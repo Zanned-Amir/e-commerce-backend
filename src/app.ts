@@ -8,6 +8,8 @@ import hpp from 'hpp';
 import routes from './routes/index';
 import golbalErrorHandler from './controllers/error.controller';
 import AppError from './utils/app.error';
+import swaggerDocs from './utils/swagger';
+
 
 
 const mongoSanitize = ExpressMongoSanitize();
@@ -24,6 +26,9 @@ app.use(express.json());
 app.use(mongoSanitize)
 app.use(xss());
 app.use(hpp());
+
+swaggerDocs(app);
+
 
 app.use('/api/v1', routes);
 

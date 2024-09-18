@@ -35,8 +35,10 @@ class ReviewController  {
                     });
 
           createReview = catchAsync(async (req: Request, res: Response, next:NextFunction) => {
+                    
                               const body = req.body;
                               const newReview = await this._reviewService.createReview(body);
+                              
           
                               res.status(201).json({
                                         status: 'success',

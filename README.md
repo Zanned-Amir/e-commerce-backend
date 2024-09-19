@@ -18,4 +18,4 @@ To build the Docker images specified in the `docker-compose.yml` file, run:
 docker-compose build
 ```
 # NB:
- you can make your own change app still under construction
+ you can make your own change but app still under construction

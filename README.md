@@ -4,6 +4,7 @@ This repository contains the backend for an e-commerce application. It is design
 
 ## Prerequisites
 
+
 Ensure you have the following installed on your machine:
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)

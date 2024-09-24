@@ -2,7 +2,6 @@
 
 This repository contains the backend for an e-commerce application. It is designed to be run using Docker and Docker Compose. Follow the instructions below to set up and run the backend.
 
-
 ## Prerequisites
 
 Ensure you have the following installed on your machine:

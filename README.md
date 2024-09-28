@@ -18,5 +18,17 @@ To build the Docker images specified in the `docker-compose.yml` file, run:
 ```bash
 docker-compose build
 ```
+To start the containers, run: 
+
+```bash
+docker-compose up
+```
+
+To stop the running containers, use:
+
+```bash
+docker-compose down
+```
+
 # NB:
  you can make your own change but app still under construction
